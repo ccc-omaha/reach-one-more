@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reach One More | Christ Community Church</title>
+<meta name="description" content="Reach One More was Christ Community Church's evangelistic and generosity initiative to reach one more person here in Omaha, there in hard-to-reach places, and everywhere among the least-reached nations.">
+<meta property="og:title" content="Reach One More | Christ Community Church">
+<meta property="og:description" content="Because lost and hurting people matter to God. Learn about CCC's Reach One More initiative.">
+<meta property="og:image" content="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/8bd655be-f391-478f-9911-c3b7684877ce/iStock-1372330333.jpg?format=1500w">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/ohw6ayv.css">
+<style>
+  :root{
+    --rom-yellow:#FFC72C;
+    --navy:#00003D;
+    --blue:#0083E0;
+    --pink:#F6CBE1;
+    --cream:#FBEFDA;
+    --ink:#14142B;
+    --white:#fff;
+    --sans:"proxima-nova", "Helvetica Neue", Arial, sans-serif;
+    --display:"quincy-cf", "ivypresto-display", Georgia, serif;
+    --wrap:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:72px}
+  body{font-family:var(--sans);color:var(--ink);background:var(--white);line-height:1.6;font-size:18px;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{width:min(var(--wrap), 100% - 48px);margin-inline:auto}
+  .eyebrow{font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:.78rem}
+  h1,h2,h3{line-height:1.1}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(2.2rem,4.6vw,3.6rem);letter-spacing:-.01em}
+  h3{font-weight:800;font-size:1.3rem;letter-spacing:.02em}
+
+  /* Header */
+  .site-header{position:sticky;top:0;z-index:50;background:var(--navy);color:var(--white)}
+  .site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .site-header img{height:30px;width:auto}
+  .nav{display:flex;gap:28px;list-style:none}
+  .nav a{text-decoration:none;font-weight:600;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+  .nav a:hover{opacity:1;color:var(--rom-yellow)}
+  .menu-btn{display:none;background:none;border:0;color:var(--white);font:700 .85rem var(--sans);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  @media (max-width:820px){
+    .menu-btn{display:block}
+    .nav{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;background:var(--navy);padding:8px 24px 20px}
+    .nav.open{display:flex}
+    .nav a{display:block;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+  }
+
+  /* Hero with overlapping logo */
+  .hero{position:relative;height:min(78vh,720px);min-height:420px;background:#111 center/cover no-repeat}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,61,.05) 40%,rgba(0,0,61,.55))}
+  .hero-logo{position:absolute;left:50%;bottom:0;transform:translate(-50%,50%);z-index:2;width:clamp(200px,26vw,330px)}
+  .hero-logo img{width:100%;filter:drop-shadow(0 14px 30px rgba(0,0,0,.35))}
+
+  /* Intro */
+  .intro{padding:calc(clamp(200px,26vw,330px)/2 + 56px) 0 96px;text-align:center}
+  .intro .lede{font-size:clamp(1.25rem,2.2vw,1.6rem);max-width:820px;margin:18px auto 0;line-height:1.45}
+  .archive-note{display:inline-block;margin-top:32px;padding:14px 22px;border-radius:999px;background:var(--cream);font-size:.95rem}
+  .archive-note strong{color:var(--navy)}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .split img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px}
+  @media (max-width:860px){.split{grid-template-columns:1fr;gap:36px}}
+
+  /* Vision */
+  .vision{background:var(--navy);color:var(--white);padding:110px 0;position:relative;overflow:hidden}
+  .vision .circle{position:absolute;width:420px;right:-120px;top:-120px;opacity:.9;pointer-events:none}
+  .vision .rom-white{width:min(360px,80%);margin-bottom:34px}
+  .vision p{font-size:1.15rem;opacity:.9;margin-top:16px}
+  .verse{margin-top:40px;padding-left:24px;border-left:4px solid var(--rom-yellow)}
+  .verse blockquote{font-family:var(--display);font-size:clamp(1.5rem,2.6vw,2rem);line-height:1.25;color:var(--rom-yellow)}
+  .verse cite{display:block;margin-top:10px;font-style:normal;font-weight:700;letter-spacing:.14em;font-size:.8rem;text-transform:uppercase}
+  .tagline{font-family:var(--display);font-size:clamp(1.8rem,3.4vw,2.6rem);margin-top:40px;line-height:1.15}
+
+  .divider{display:flex;justify-content:center;padding:0}
+  .divider img{width:64px;height:auto;margin:-32px auto;position:relative;z-index:3}
+
+  /* Banner photo */
+  .band{height:clamp(240px,40vw,460px);background:center/cover no-repeat}
+
+  /* Goals */
+  .goals{padding:96px 0}
+  .goal-head{text-align:center;max-width:780px;margin:0 auto 56px}
+  .goal-head .big{font-family:var(--display);font-size:clamp(3rem,7vw,5.2rem);color:var(--navy);line-height:1;margin:12px 0}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{background:var(--cream);padding:34px 30px;border-radius:4px;border-top:6px solid var(--rom-yellow)}
+  .card h3{color:var(--navy);margin-bottom:10px;text-transform:uppercase}
+  @media (max-width:860px){.cards{grid-template-columns:1fr}}
+
+  /* Funding */
+  .funding{padding:96px 0;background:var(--rom-yellow);color:var(--navy)}
+  .funding .goal-head .big{color:var(--navy)}
+  .totals{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;margin:-24px 0 56px;text-align:center}
+  .totals div strong{display:block;font-size:2rem;font-weight:800}
+  .totals div span{font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:.8rem}
+  .where{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .where article{background:var(--navy);color:var(--white);padding:36px 30px;border-radius:4px}
+  .where h3{font-family:var(--display);font-size:2.4rem;font-weight:600;color:var(--rom-yellow);letter-spacing:0}
+  .where .amt{font-weight:700;letter-spacing:.1em;margin:6px 0 18px;opacity:.85}
+  .where ul{list-style:none}
+  .where li{padding:10px 0;border-top:1px solid rgba(255,255,255,.15)}
+  @media (max-width:860px){.where{grid-template-columns:1fr}}
+
+  /* Stories */
+  .stories{position:relative;padding:110px 0;color:var(--white);background:var(--navy) center/cover no-repeat}
+  .stories::before{content:"";position:absolute;inset:0;background:rgba(0,0,61,.82)}
+  .stories .wrap{position:relative}
+  .stories .goal-head h2{color:var(--white)}
+  .stories .goal-head p{opacity:.85;margin-top:12px}
+  .videos{display:grid;grid-template-columns:repeat(6,1fr);gap:22px}
+  .video{grid-column:span 2}
+  .video:nth-child(4){grid-column:2 / span 2}
+  .video:nth-child(5){grid-column:4 / span 2}
+  .player{position:relative;aspect-ratio:16/9;background:#000;border-radius:4px;overflow:hidden;cursor:pointer}
+  .player img{width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .2s}
+  .player:hover img{opacity:1}
+  .player .play{position:absolute;inset:0;display:grid;place-items:center}
+  .player .play span{width:66px;height:66px;border-radius:50%;background:var(--rom-yellow);display:grid;place-items:center}
+  .player .play span::after{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent var(--navy);margin-left:5px}
+  .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .player.empty{cursor:default;display:grid;place-items:center;background:rgba(255,255,255,.08);font-size:.85rem;opacity:.7}
+  .video h3{margin-top:14px;font-size:1.05rem}
+  @media (max-width:900px){.videos{grid-template-columns:1fr 1fr}.video,.video:nth-child(4),.video:nth-child(5){grid-column:auto}}
+  @media (max-width:560px){.videos{grid-template-columns:1fr}}
+
+  /* Letter */
+  .letter{padding:110px 0;background:var(--cream)}
+  .letter .split{align-items:start}
+  .letter-photos{position:relative}
+  .letter-photos .preach{aspect-ratio:4/5}
+  .letter-photos .portrait{position:absolute;width:42%;aspect-ratio:1;object-fit:cover;border-radius:50%;right:-24px;bottom:-24px;border:8px solid var(--cream)}
+  .letter-body p{margin-top:18px}
+  .letter-body .sig{width:200px;margin-top:28px;mix-blend-mode:multiply}
+  .letter-body .signoff{font-weight:700;margin-top:4px}
+  .letter-body .role{font-size:.9rem;letter-spacing:.12em;text-transform:uppercase}
+  @media (max-width:860px){.letter-photos .portrait{right:12px;bottom:-20px}}
+
+  /* FAQ */
+  .faq{padding:100px 0}
+  .faq .goal-head{margin-bottom:40px}
+  .faq-list{max-width:820px;margin:0 auto}
+  details{border-bottom:1px solid #ddd}
+  summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;font-weight:700;font-size:1.1rem;position:relative;color:var(--navy)}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";position:absolute;right:4px;top:16px;font-size:1.6rem;font-weight:400;color:var(--navy)}
+  details[open] summary::after{content:"\2013"}
+  details p{padding:0 0 22px}
+
+  /* Footer */
+  footer{background:var(--navy);color:var(--white);padding:64px 0 40px;font-size:.95rem}
+  footer .wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px}
+  footer img{height:34px;width:auto;margin-bottom:18px}
+  footer a{text-decoration:none;opacity:.85}
+  footer a:hover{opacity:1;color:var(--rom-yellow)}
+  footer ul{list-style:none;display:grid;gap:6px}
+  footer .copy{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);padding-top:24px;opacity:.6;font-size:.85rem}
+  @media (max-width:760px){footer .wrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="https://cccomaha.org" aria-label="Christ Community Church home">
+      <img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/a1d42fa6-2265-4e0d-8fe8-b59a1e46bb8d/CCC+Long+-+yellow.png?format=750w" alt="Christ Community Church">
+    </a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <ul class="nav" id="nav">
+      <li><a href="#vision">Vision</a></li>
+      <li><a href="#goals">Goals</a></li>
+      <li><a href="#stories">Stories</a></li>
+      <li><a href="#letter">Letter</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="background-image:url('https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/8bd655be-f391-478f-9911-c3b7684877ce/iStock-1372330333.jpg?format=2500w')" aria-label="Reach One More">
+    <div class="hero-logo">
+      <img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/2528af29-7cf5-4cbc-9c94-d8cc1d7c84e6/ROM-MainLogo-S3_Yellow.png?format=750w" alt="Reach One More">
+    </div>
+  </section>
+
+  <section class="intro">
+    <div class="wrap">
+      <p class="eyebrow">Christ Community Church</p>
+      <p class="lede">For over 100 years, CCC has been called to make disciples, reach the lost in Omaha, and send the gospel around the world. Reach One More gave that calling fresh expression for a new generation.</p>
+      <p class="archive-note"><strong>Reach One More launched in fall 2023</strong> and ran through December 2024. This page explains what it was and why it still shapes who we are.</p>
+    </div>
+  </section>
+
+  <section class="vision" id="vision">
+    <img class="circle" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt="" aria-hidden="true">
+    <div class="wrap split">
+      <div>
+        <img class="rom-white" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c190324f-fd46-46be-8478-14b7d6dac76b/ROM-MainLogo_White-cut.png?format=750w" alt="Reach One More">
+        <p class="eyebrow" style="color:var(--rom-yellow)">Our Vision</p>
+        <h2>Reach one more.</h2>
+        <p>Reach One More is an evangelistic initiative built on a value CCC has held for a century: there is always one more person to reach. A friend. A neighbor. Someone in a hard-to-reach place who has never heard the name of Jesus.</p>
+        <div class="verse">
+          <blockquote>And the Lord added to their number daily those who were being saved.</blockquote>
+          <cite>Acts 2:47b</cite>
+        </div>
+        <p class="tagline">Because lost and hurting people matter to God.</p>
+      </div>
+      <img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=1500w" alt="">
+    </div>
+  </section>
+
+  <div class="band" style="background-image:url('https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c4017b95-7146-4204-b2da-980358b1d0ea/North+Omaha.jpg?format=2500w')" role="img" aria-label="North Omaha"></div>
+  <div class="divider"><img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
+
+  <section class="goals" id="goals">
+    <div class="wrap">
+      <div class="goal-head">
+        <p class="eyebrow">Primary Goal</p>
+        <p class="big">100% Engagement</p>
+        <p>Every person at CCC was invited to take a real step in three areas.</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <h3>Personal Witness</h3>
+          <p>Who in your sphere of influence is God inviting you to reach? Name your one more, pray for them daily, and share your story.</p>
+        </div>
+        <div class="card">
+          <h3>Faith</h3>
+          <p>What step will move you out of your comfort zone and into deeper dependence on God?</p>
+        </div>
+        <div class="card">
+          <h3>Generosity</h3>
+          <p>How can you grow in giving as an expression of gratitude for what God has already given you?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="band" style="background-image:url('https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/47b8f0ad-fe08-43ca-b784-5b56e948f854/Indonesia+-+by+Tyler+Morgan+-+Unsplash+-+Expanded.jpg?format=2500w')" role="img" aria-label="Indonesia"></div>
+
+  <section class="funding">
+    <div class="wrap">
+      <div class="goal-head">
+        <p class="eyebrow">Secondary Goal</p>
+        <p class="big">$12.2 Million</p>
+        <p>Given over thirteen months to fund local and global missions, improve CCC's spaces for discipleship, and equip the next generation.</p>
+      </div>
+      <div class="totals">
+        <div><strong>$8.8M</strong><span>Core Ministry</span></div>
+        <div><strong>$3.4M</strong><span>Reach One More</span></div>
+      </div>
+      <div class="where">
+        <article>
+          <h3>Here</h3>
+          <p class="amt">$890,000</p>
+          <ul>
+            <li>Multiply the Deaf Ministry</li>
+            <li>Refresh the Student Center</li>
+            <li>Expand the kids' Sports Ministry</li>
+          </ul>
+        </article>
+        <article>
+          <h3>There</h3>
+          <p class="amt">$900,000</p>
+          <ul>
+            <li>Reach overlooked children through local schools and Camp Rivercrest</li>
+            <li>Create counselor scholarships</li>
+            <li>Partner with organizations caring for hurting people</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Everywhere</h3>
+          <p class="amt">$1,590,000</p>
+          <ul>
+            <li>Join the Green City Initiative</li>
+            <li>Serve least-reached nations through the Great Commission Fund</li>
+            <li>Resource the planting of 27 churches among least-reached peoples</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="stories" id="stories" style="background-image:url('https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/833dbd10-cc36-446d-91ec-5ade3780fea9/iStock-1407511351.jpg?format=2500w')">
+    <div class="wrap">
+      <div class="goal-head">
+        <p class="eyebrow" style="color:var(--rom-yellow)">Stories</p>
+        <h2>Everyone has a one more.</h2>
+        <p>People from our church family share who God put in their path and what happened when they said yes.</p>
+      </div>
+      <!-- Paste each YouTube video ID into data-youtube (the part after watch?v=) -->
+      <div class="videos">
+        <div class="video"><div class="player" data-youtube=""></div><h3>Chris Raabe</h3></div>
+        <div class="video"><div class="player" data-youtube=""></div><h3>Carol Denny</h3></div>
+        <div class="video"><div class="player" data-youtube=""></div><h3>Kylie Cole</h3></div>
+        <div class="video"><div class="player" data-youtube=""></div><h3>Scott Momsen</h3></div>
+        <div class="video"><div class="player" data-youtube=""></div><h3>Jen &amp; Nick</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter" id="letter">
+    <div class="wrap split">
+      <div class="letter-photos">
+        <img class="preach" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/d1cd8428-c271-4c95-bc6b-feb175bb1db3/MARK-PREACHING.jpg?format=1500w" alt="Minister Mark Ashton preaching">
+        <img class="portrait" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/6e58790d-6492-46a4-8133-46a6b653e27b/markel.jpg?format=750w" alt="Minister Mark Ashton">
+      </div>
+      <div class="letter-body">
+        <p class="eyebrow">A Letter from Minister Mark Ashton</p>
+        <h2>Why Reach One More?</h2>
+        <p>Coming out of COVID-19, our elders spent a season in prayer asking God what was next for Christ Community Church. We held more than thirty focus groups and two leadership retreats to listen well.</p>
+        <p>What emerged was a clear picture of CCC's fingerprint: a central place in the Omaha Metro, a deep care for people who have never heard of Jesus, a culture of generosity, a willingness to take faith-filled risks, a holy dissatisfaction with the status quo, strong care and counseling ministries, and a passion to reach one more.</p>
+        <p>With 102 years of ministry behind us, a strong campus, and no debt, the easy choice would have been to coast. Our elders chose to press forward. Reach One More is not a property campaign. It is an evangelistic initiative to reach one more person here, there, and everywhere.</p>
+        <p>I am grateful for everyone who joined us in this work.</p>
+        <img class="sig" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/309d7d1a-3df1-4233-9165-7c7ea63ff304/mark-sig.jpg?format=500w" alt="Mark Ashton signature">
+        <p class="signoff">Minister Mark Ashton</p>
+        <p class="role">Lead Minister</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
+
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="goal-head">
+        <p class="eyebrow">FAQ</p>
+        <h2>Questions</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>What was Reach One More?</summary>
+          <p>A church-wide initiative launched in October 2023 that called every person at CCC to pray for, love, and share Jesus with one person in their life, and to give generously toward reaching people here in Omaha, there in hard places, and everywhere among the least-reached nations.</p>
+        </details>
+        <details>
+          <summary>How long did the financial commitment run?</summary>
+          <p>Thirteen months, from the First Big Give on December 3, 2023 through December 2024. Gifts were given above regular giving into one fund supporting core ministry, local biblical justice, global missions, and campus upgrades.</p>
+        </details>
+        <details>
+          <summary>Is reaching one more still something we do?</summary>
+          <p>Yes. The giving campaign had an end date. Reaching one more does not. It is a lifelong commitment for every follower of Jesus, and it remains part of CCC's DNA.</p>
+        </details>
+        <details>
+          <summary>What if I don't know any non-Christians?</summary>
+          <p>Start by praying that God would bring someone into your life who is open to friendship, and that he would make you a fisher of people.</p>
+        </details>
+        <details>
+          <summary>What if I don't know how to share my faith?</summary>
+          <p>CCC offers evangelism and Seeker Small Group training. Find current options at <a href="https://cccomaha.info">cccomaha.info</a> under Classes &amp; Events.</p>
+        </details>
+        <details>
+          <summary>I'm new to CCC. Where do I start?</summary>
+          <p>We would love for you to make CCC your church home. Take CCC 101 at <a href="https://cccomaha.info">cccomaha.info</a>, or reach out to our team at <a href="https://cccomaha.org/staff">cccomaha.org/staff</a>.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/a1d42fa6-2265-4e0d-8fe8-b59a1e46bb8d/CCC+Long+-+yellow.png?format=750w" alt="Christ Community Church">
+      <p>404 S 108th Ave<br>Omaha, NE 68154</p>
+    </div>
+    <ul>
+      <li><a href="tel:4023303360">402.330.3360</a></li>
+      <li><a href="mailto:info@cccomaha.org">info@cccomaha.org</a></li>
+      <li><a href="https://cccomaha.org">cccomaha.org</a></li>
+    </ul>
+    <ul>
+      <li><a href="https://youtube.com/@cccomaha">YouTube</a></li>
+      <li><a href="https://instagram.com/cccomaha">Instagram</a></li>
+      <li><a href="https://facebook.com/cccomaha">Facebook</a></li>
+      <li><a href="https://tiktok.com/@cccomaha">TikTok</a></li>
+    </ul>
+    <p class="copy">&copy; <span id="yr">2026</span> Christ Community Church</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const btn = document.querySelector('.menu-btn'), nav = document.getElementById('nav');
+  btn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    nav.classList.remove('open'); btn.setAttribute('aria-expanded', false);
+  }));
+
+  // Lightweight YouTube embeds: thumbnail first, iframe on click
+  document.querySelectorAll('.player').forEach(p => {
+    const id = p.dataset.youtube.trim();
+    if (!id) { p.classList.add('empty'); p.textContent = 'Video coming soon'; return; }
+    p.innerHTML = `<img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy"><div class="play"><span></span></div>`;
+    p.addEventListener('click', () => {
+      p.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${p.nextElementSibling.textContent}"></iframe>`;
+    }, { once: true });
+  });
+</script>
+</body>
+</html>

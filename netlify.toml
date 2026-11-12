@@ -1,0 +1,24 @@
+[build]
+  publish = "."
+
+# Old Squarespace pages now live on the single page
+[[redirects]]
+  from = "/stories"
+  to = "/#stories"
+  status = 301
+[[redirects]]
+  from = "/stories/*"
+  to = "/#stories"
+  status = 301
+[[redirects]]
+  from = "/faq"
+  to = "/#faq"
+  status = 301
+[[redirects]]
+  from = "/commit"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/resources"
+  to = "/"
+  status = 301
