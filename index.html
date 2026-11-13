@@ -645,7 +645,6 @@
     else io.observe(el);
   });
 
-  document.querySelector('.to-top').addEventListener('click', e => { e.preventDefault(); scrollTo({ top: 0, behavior: 'smooth' }); history.replaceState(null, '', location.pathname); });
 
   // Guided scroll: the cue (or a short idle on load) glides through the circle to the vision
   const glideTo = (y, dur = 1800) => {
@@ -660,6 +659,22 @@
     cancelGlide = false; requestAnimationFrame(step);
   };
   let cancelGlide = false;
+  // Header logo: fast glide to the top with the whole page motion-blurred on the way
+  document.querySelector('.to-top').addEventListener('click', e => {
+    e.preventDefault(); history.replaceState(null, '', location.pathname);
+    const main = document.querySelector('main'), y0 = scrollY, t0 = performance.now();
+    const dur = Math.min(1400, 500 + y0 / 8);
+    const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const html = document.documentElement, prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto'; cancelGlide = false;
+    const step = now => {
+      const k = Math.min(1, (now - t0) / dur);
+      scrollTo(0, y0 * (1 - ease(k)));
+      main.style.filter = k < 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches ? `blur(${(Math.sin(Math.PI * k) * 10).toFixed(2)}px)` : '';
+      if (k < 1 && !cancelGlide) requestAnimationFrame(step); else { main.style.filter = ''; html.style.scrollBehavior = prev; }
+    };
+    requestAnimationFrame(step);
+  });
   const visionY = () => document.getElementById('vision').getBoundingClientRect().top + scrollY - 68;
   document.querySelector('.z-cue').addEventListener('click', e => { e.preventDefault(); glideTo(visionY()); });
   let idle = setTimeout(() => { if (scrollY < 10) glideTo(visionY(), 2400); }, 4500);
