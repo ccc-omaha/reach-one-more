@@ -659,22 +659,32 @@
     cancelGlide = false; requestAnimationFrame(step);
   };
   let cancelGlide = false;
-  // Header logo: fast glide to the top with the whole page motion-blurred on the way
-  document.querySelector('.to-top').addEventListener('click', e => {
-    e.preventDefault(); history.replaceState(null, '', location.pathname);
+  // Blurred glide: header logo (to top) and nav links (to their section)
+  const blurGlide = target => {
     const main = document.querySelector('main'), y0 = scrollY, t0 = performance.now();
-    const dur = Math.min(1400, 500 + y0 / 8);
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const dist = Math.abs(target - y0), dur = Math.min(1400, 500 + dist / 8);
     const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     const html = document.documentElement, prev = html.style.scrollBehavior;
+    const peak = Math.min(10, 3 + dist / 400);
     html.style.scrollBehavior = 'auto'; cancelGlide = false;
     const step = now => {
       const k = Math.min(1, (now - t0) / dur);
-      scrollTo(0, y0 * (1 - ease(k)));
-      main.style.filter = k < 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches ? `blur(${(Math.sin(Math.PI * k) * 10).toFixed(2)}px)` : '';
+      scrollTo(0, y0 + (target - y0) * ease(k));
+      main.style.filter = k < 1 && !still ? `blur(${(Math.sin(Math.PI * k) * peak).toFixed(2)}px)` : '';
       if (k < 1 && !cancelGlide) requestAnimationFrame(step); else { main.style.filter = ''; html.style.scrollBehavior = prev; }
     };
     requestAnimationFrame(step);
+  };
+  document.querySelector('.to-top').addEventListener('click', e => {
+    e.preventDefault(); history.replaceState(null, '', location.pathname); blurGlide(0);
   });
+  document.querySelectorAll('.nav a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const el = document.querySelector(a.getAttribute('href'));
+    if (!el) return;
+    e.preventDefault(); history.replaceState(null, '', a.getAttribute('href'));
+    blurGlide(Math.max(0, el.getBoundingClientRect().top + scrollY - 68));
+  }));
   const visionY = () => document.getElementById('vision').getBoundingClientRect().top + scrollY - 68;
   document.querySelector('.z-cue').addEventListener('click', e => { e.preventDefault(); glideTo(visionY()); });
   let idle = setTimeout(() => { if (scrollY < 10) glideTo(visionY(), 2400); }, 4500);
