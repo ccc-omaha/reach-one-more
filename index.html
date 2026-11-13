@@ -53,23 +53,27 @@
   /* Hero with overlapping logo */
   .hero{position:relative;height:min(78vh,720px);min-height:420px;background:#111 center/cover no-repeat}
   .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,61,.05) 40%,rgba(0,0,61,.55))}
-  .hero-logo{position:absolute;left:50%;bottom:0;transform:translate(-50%,50%);z-index:2;width:clamp(200px,26vw,330px)}
-  .hero-logo img{width:100%;filter:drop-shadow(0 14px 30px rgba(0,0,0,.35))}
+  .hero-logo{position:absolute;left:50%;bottom:0;transform:translate(-50%,50%);z-index:2;width:clamp(280px,34vw,440px)}
+  .hero-logo img{width:100%}
+  @media (max-width:700px){.hero-logo{width:78vw}}
 
   /* Intro */
-  .intro{padding:calc(clamp(200px,26vw,330px)/2 + 56px) 0 96px;text-align:center}
+  .intro{padding:calc(clamp(280px,34vw,440px)/2 + 56px) 0 96px;text-align:center}
+  @media (max-width:700px){.intro{padding-top:calc(39vw + 48px)}}
   .intro .lede{font-size:clamp(1.25rem,2.2vw,1.6rem);max-width:820px;margin:18px auto 0;line-height:1.45}
   .archive-note{display:inline-block;margin-top:32px;padding:14px 22px;border-radius:999px;background:var(--cream);font-size:.95rem}
   .archive-note strong{color:var(--navy)}
 
   .split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
-  .split img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px}
+  .split > img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px}
   @media (max-width:860px){.split{grid-template-columns:1fr;gap:36px}}
 
   /* Vision */
-  .vision{background:var(--navy);color:var(--white);padding:110px 0;position:relative;overflow:hidden}
-  .vision .circle{position:absolute;width:420px;right:-120px;top:-120px;opacity:.9;pointer-events:none}
-  .vision .rom-white{width:min(360px,80%);margin-bottom:34px}
+  .vision{background:var(--navy);color:var(--white);padding:110px 0 0;position:relative;overflow:hidden}
+  .vision .rom-white{width:min(520px,100%);margin-bottom:40px}
+  @media (max-width:860px){.vision{padding-top:72px}.vision .rom-white{width:86vw}}
+  .circle-row{position:relative;height:clamp(180px,22vw,300px);margin-top:40px}
+  .circle-row img{position:absolute;right:calc(clamp(180px,22vw,300px) * -.5);top:0;height:100%;width:auto;pointer-events:none}
   .vision p{font-size:1.15rem;opacity:.9;margin-top:16px}
   .verse{margin-top:40px;padding-left:24px;border-left:4px solid var(--rom-yellow)}
   .verse blockquote{font-family:var(--display);font-size:clamp(1.5rem,2.6vw,2rem);line-height:1.25;color:var(--rom-yellow)}
@@ -131,10 +135,10 @@
   .letter{padding:110px 0;background:var(--cream)}
   .letter .split{align-items:start}
   .letter-photos{position:relative}
-  .letter-photos .preach{aspect-ratio:4/5}
+  .letter-photos .preach{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
   .letter-photos .portrait{position:absolute;width:42%;aspect-ratio:1;object-fit:cover;border-radius:50%;right:-24px;bottom:-24px;border:8px solid var(--cream)}
   .letter-body p{margin-top:18px}
-  .letter-body .sig{width:200px;margin-top:28px;mix-blend-mode:multiply}
+  .letter-body .sig{width:220px;max-width:70%;height:auto;margin-top:28px;mix-blend-mode:multiply}
   .letter-body .signoff{font-weight:700;margin-top:4px}
   .letter-body .role{font-size:.9rem;letter-spacing:.12em;text-transform:uppercase}
   @media (max-width:860px){.letter-photos .portrait{right:12px;bottom:-20px}}
@@ -195,7 +199,6 @@
   </section>
 
   <section class="vision" id="vision">
-    <img class="circle" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt="" aria-hidden="true">
     <div class="wrap split">
       <div>
         <img class="rom-white" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c190324f-fd46-46be-8478-14b7d6dac76b/ROM-MainLogo_White-cut.png?format=750w" alt="Reach One More">
@@ -210,6 +213,7 @@
       </div>
       <img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=1500w" alt="">
     </div>
+    <div class="circle-row" aria-hidden="true"><img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt=""></div>
   </section>
 
   <div class="band" style="background-image:url('https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c4017b95-7146-4204-b2da-980358b1d0ea/North+Omaha.jpg?format=2500w')" role="img" aria-label="North Omaha"></div>
