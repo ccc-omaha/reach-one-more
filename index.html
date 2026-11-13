@@ -108,6 +108,10 @@
   .film .player{aspect-ratio:21/9;border-radius:6px}
   .film .player img{opacity:.7}
   .film .player:hover img{opacity:.85}
+  .film .bgvid{position:absolute;top:50%;left:50%;width:100%;aspect-ratio:16/9;transform:translate(-50%,-50%);border:0;pointer-events:none;opacity:0;transition:opacity 1.2s ease}
+  .film .bgvid.on{opacity:.75}
+  .film .player::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,61,0) 45%,rgba(0,0,61,.65));pointer-events:none}
+  .film .player .play{z-index:2}
   .film-label{position:absolute;left:clamp(20px,4vw,56px);bottom:clamp(20px,4vw,48px);z-index:2;pointer-events:none}
   .film-label .eyebrow{color:var(--rom-yellow)}
   .film-label strong{display:block;font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3.4vw,3rem);line-height:1.05;margin-top:6px}
@@ -118,7 +122,11 @@
     .film{margin-inline:calc(-1 * var(--gutter));--c:150px}
     .film .player{aspect-ratio:16/9;border-radius:0}
     .film .player .play span{width:56px;height:56px}
-    .film-label{left:20px;bottom:16px}
+    .film .bgvid{position:absolute;top:50%;left:50%;width:100%;aspect-ratio:16/9;transform:translate(-50%,-50%);border:0;pointer-events:none;opacity:0;transition:opacity 1.2s ease}
+  .film .bgvid.on{opacity:.75}
+  .film .player::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,61,0) 45%,rgba(0,0,61,.65));pointer-events:none}
+  .film .player .play{z-index:2}
+  .film-label{left:20px;bottom:16px}
     .film-label strong{font-size:1.5rem}
     .film .pink{top:auto;bottom:calc(var(--c) * -.5);right:calc(var(--c) * -.5)}
   }
@@ -542,6 +550,21 @@
   modal.addEventListener('close', () => { frame.innerHTML = ''; document.body.style.overflow = ''; });
   modal.querySelector('.close').addEventListener('click', closeModal);
   modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  // Vision film: muted looping background video, popup with sound on click
+  const film = document.querySelector('.film .player');
+  if (film && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const startBg = () => {
+      const f = document.createElement('iframe');
+      f.className = 'bgvid'; f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
+      f.allow = 'autoplay; fullscreen';
+      f.src = `https://player.vimeo.com/video/${film.dataset.vimeo}?background=1&autoplay=1&loop=1&muted=1&dnt=1`;
+      f.addEventListener('load', () => setTimeout(() => f.classList.add('on'), 600));
+      film.insertBefore(f, film.querySelector('.play'));
+    };
+    const vo = new IntersectionObserver(es => { if (es[0].isIntersecting) { startBg(); vo.disconnect(); } }, { rootMargin: '400px' });
+    vo.observe(film);
+  }
 
   // Vimeo players: thumbnail first, iframe on click
   document.querySelectorAll('.player').forEach(p => {
