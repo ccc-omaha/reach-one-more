@@ -71,6 +71,7 @@ content:
     fields:
       - name: intro
         label: Line under "100% Engagement"
+        description: The line under the big 100% Engagement number.
         type: text
       - name: caption
         label: Caption under the people icons
@@ -79,14 +80,16 @@ content:
       - name: cards
         label: Three cards
         type: object
-        list: { min: 3, max: 3 }
+        list: {min: 3, max: 3}
         description: In order, these use the speech bubble, steps and heart icons.
         fields:
           - name: title
             label: Card title
+            description: The bold title on the card, under its icon.
             type: string
           - name: text
             label: Card text
+            description: The paragraph on the card.
             type: text
 
   # ---------------------------------------------------------------
@@ -106,24 +109,28 @@ content:
         description: Whole dollars, no commas. Example 8800000.
       - name: here
         label: Here
+        description: The Here card and the Here part of the second bar chart.
         type: object
         fields:
-          - { name: amount, label: Amount (whole dollars), type: number }
-          - { name: items, label: What it funded, type: string, list: true }
+          - {name: amount, label: Amount (whole dollars), description: Shown on the Here card. Also sizes its bar and feeds the totals., type: number}
+          - {name: items, label: What it funded, description: The bullet list on the Here card., type: string, list: true}
       - name: there
         label: There
+        description: The There card and the There part of the second bar chart.
         type: object
         fields:
-          - { name: amount, label: Amount (whole dollars), type: number }
-          - { name: items, label: What it funded, type: string, list: true }
+          - {name: amount, label: Amount (whole dollars), description: Shown on the There card. Also sizes its bar and feeds the totals., type: number}
+          - {name: items, label: What it funded, description: The bullet list on the There card., type: string, list: true}
       - name: everywhere
         label: Everywhere
+        description: The Everywhere card and the Everywhere part of the second bar chart.
         type: object
         fields:
-          - { name: amount, label: Amount (whole dollars), type: number }
-          - { name: items, label: What it funded, type: string, list: true }
+          - {name: amount, label: Amount (whole dollars), description: Shown on the Everywhere card. Also sizes its bar and feeds the totals., type: number}
+          - {name: items, label: What it funded, description: The bullet list on the Everywhere card., type: string, list: true}
       - name: churchesCaption
         label: Caption under the church icons
+        description: The small line under the 27 church icons on the Everywhere card.
         type: string
 
   # ---------------------------------------------------------------
@@ -135,9 +142,11 @@ content:
     fields:
       - name: heading
         label: Heading
+        description: The big heading above the story videos.
         type: string
       - name: intro
         label: Line under the heading
+        description: The line under the stories heading.
         type: text
       - name: videos
         label: Story videos
@@ -147,6 +156,7 @@ content:
         fields:
           - name: name
             label: Name shown under the video
+            description: Shown under the video thumbnail and in the popup.
             type: string
             required: true
           - name: link
@@ -164,9 +174,11 @@ content:
     fields:
       - name: label
         label: Small label above the heading
+        description: The small all-caps line above the letter heading.
         type: string
       - name: heading
         label: Heading
+        description: The big heading at the top of the letter.
         type: string
       - name: paragraphs
         label: Letter paragraphs
@@ -175,12 +187,15 @@ content:
         description: One paragraph per item.
       - name: signoff
         label: Name under the signature
+        description: The name under the signature image.
         type: string
       - name: role
         label: Title
+        description: The small all-caps title under the name.
         type: string
       - name: photo
         label: Large photo
+        description: The tall photo to the left of the letter.
         type: image
       - name: portrait
         label: Round portrait
@@ -197,6 +212,7 @@ content:
     fields:
       - name: question
         label: Question
+        description: The line people click to open the answer.
         type: string
         required: true
       - name: answer
@@ -214,6 +230,7 @@ content:
     fields:
       - name: hero
         label: Opening photo (behind the circle)
+        description: The photo on the top half of the opening screen, behind the yellow circle.
         type: image
       - name: visionVideoPoster
         label: Vision video still
@@ -221,26 +238,33 @@ content:
         description: Shown until the video starts playing.
       - name: band1
         label: First full-width photo (after the video)
+        description: The full-width photo between the vision video and 100% Engagement.
         type: image
       - name: band1Focus
         label: First photo crop
+        description: Which part of that photo stays in view when it's cropped to a wide strip.
         type: select
-        options: { values: [ { name: "15%", label: Top }, { name: "35%", label: Upper third }, { name: "50%", label: Center }, { name: "65%", label: Lower third }, { name: "80%", label: Bottom } ] }
+        options: {values: [{name: "15%", label: Top}, {name: "35%", label: Upper third}, {name: "50%", label: Center}, {name: "65%", label: Lower third}, {name: "80%", label: Bottom}]}
       - name: band1Label
         label: First photo description (for screen readers)
+        description: One sentence describing that photo. Not shown on the page.
         type: string
       - name: band2
         label: Second full-width photo (before giving)
+        description: The full-width photo between 100% Engagement and the giving section.
         type: image
       - name: band2Focus
         label: Second photo crop
+        description: Which part of that photo stays in view when it's cropped to a wide strip.
         type: select
-        options: { values: [ { name: "15%", label: Top }, { name: "35%", label: Upper third }, { name: "50%", label: Center }, { name: "65%", label: Lower third }, { name: "80%", label: Bottom } ] }
+        options: {values: [{name: "15%", label: Top}, {name: "35%", label: Upper third}, {name: "50%", label: Center}, {name: "65%", label: Lower third}, {name: "80%", label: Bottom}]}
       - name: band2Label
         label: Second photo description (for screen readers)
+        description: One sentence describing that photo. Not shown on the page.
         type: string
       - name: storiesBackground
         label: Stories section background
+        description: The darkened photo behind the Stories section.
         type: image
 
   # ---------------------------------------------------------------
@@ -250,7 +274,7 @@ content:
     path: content/footer.json
     format: json
     fields:
-      - { name: addressLine1, label: Address line 1, type: string }
-      - { name: addressLine2, label: Address line 2, type: string }
-      - { name: phone, label: Phone, type: string }
-      - { name: email, label: Email, type: string }
+      - {name: addressLine1, label: Address line 1, description: First line of the address in the footer., type: string}
+      - {name: addressLine2, label: Address line 2, description: Second line of the address in the footer., type: string}
+      - {name: phone, label: Phone, description: Phone number in the footer. It becomes tap-to-call., type: string}
+      - {name: email, label: Email, description: Email address in the footer. It becomes a clickable link., type: string}
