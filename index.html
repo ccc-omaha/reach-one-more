@@ -198,6 +198,15 @@
   .churches.in svg{opacity:1;transform:none}
   .churches-cap{font-size:.85rem;margin-top:10px;opacity:.8}
 
+  /* Video popup */
+  .vmodal{margin:auto;border:0;padding:0;background:transparent;width:min(1200px,94vw);max-width:none;max-height:none;overflow:visible}
+  .vmodal::backdrop{background:rgba(0,0,30,.88);backdrop-filter:blur(4px)}
+  .vmodal .frame{position:relative;aspect-ratio:16/9;background:#000;border-radius:6px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .vmodal iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vmodal .vtitle{color:#fff;font-weight:700;margin-top:14px;letter-spacing:.04em}
+  .vmodal .close{position:absolute;top:-52px;right:0;width:44px;height:44px;border-radius:50%;border:0;background:var(--rom-yellow);color:var(--navy);font-size:28px;line-height:1;cursor:pointer}
+  @media (orientation:landscape) and (max-height:600px){.vmodal{width:min(94vw, calc((100vh - 40px) * 16 / 9))}.vmodal .close{top:6px;right:6px;z-index:2}.vmodal .vtitle{display:none}}
+
   /* Footer */
   footer{background:var(--navy);color:var(--white);padding:64px 0 40px;font-size:.95rem}
   footer .wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px}
@@ -270,7 +279,7 @@
       </div>
       <div class="media">
         <!-- Vision video: paste the Vimeo ID into data-vimeo -->
-        <div class="player vision-video parallax" data-speed="0.04" data-vimeo="" data-title="Reach One More vision video" data-poster="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=1500w"></div>
+        <div class="player vision-video parallax" data-speed="0.04" data-vimeo="1035732323" data-title="Reach One More vision video" data-poster="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=1500w"></div>
         <img class="pink parallax" data-speed="-0.14" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt="" aria-hidden="true">
       </div>
     </div>
@@ -375,7 +384,7 @@
         <p>People from our church family share who God put in their path and what happened when they said yes.</p>
       </div>
       <!-- Vimeo video IDs (the number at the end of the vimeo.com link) -->
-      <div class="videos">
+      <div class="videos" data-popup>
         <div class="video"><div class="player" data-vimeo="1033649156"></div><h3>Chris Raabe</h3></div>
         <div class="video"><div class="player" data-vimeo="1033647273"></div><h3>Carol Denny</h3></div>
         <div class="video"><div class="player" data-vimeo="1033647815"></div><h3>Kylie Cole</h3></div>
@@ -464,6 +473,12 @@
   </div>
 </footer>
 
+<dialog class="vmodal" id="vmodal" aria-label="Video">
+  <button class="close" aria-label="Close video">&times;</button>
+  <div class="frame"></div>
+  <p class="vtitle"></p>
+</dialog>
+
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
@@ -477,6 +492,18 @@
   }));
 
   // Lightweight YouTube embeds: thumbnail first, iframe on click
+  // Popup player for story videos
+  const modal = document.getElementById('vmodal'), frame = modal.querySelector('.frame');
+  const openModal = (id, title) => {
+    frame.innerHTML = `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1&dnt=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="${title}"></iframe>`;
+    modal.querySelector('.vtitle').textContent = title;
+    modal.showModal(); document.body.style.overflow = 'hidden';
+  };
+  const closeModal = () => modal.open && modal.close();
+  modal.addEventListener('close', () => { frame.innerHTML = ''; document.body.style.overflow = ''; });
+  modal.querySelector('.close').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
   // Vimeo players: thumbnail first, iframe on click
   document.querySelectorAll('.player').forEach(p => {
     const id = (p.dataset.vimeo || '').trim(), poster = p.dataset.poster;
@@ -494,12 +521,14 @@
         .then(d => { const img = p.querySelector('img'); if (d && img) img.src = d.thumbnail_url.replace(/_\d+x\d+/, '_960'); })
         .catch(() => {});
     }
-    const play = () => {
+    const inPopup = p.closest('[data-popup]');
+    const play = inPopup ? () => openModal(id, title) : () => {
       p.innerHTML = `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1&dnt=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="${title}"></iframe>`;
       p.style.cursor = 'default';
     };
-    p.addEventListener('click', play, { once: true });
-    p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); } }, { once: true });
+    const once = { once: !inPopup };
+    p.addEventListener('click', play, once);
+    p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); } }, once);
   });
 
   // Build people grid (100) and church icons (27)
