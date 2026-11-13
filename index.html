@@ -73,20 +73,34 @@
   @media (max-width:860px){.split{grid-template-columns:1fr;gap:36px}}
 
   /* Vision */
-  .vision{background:var(--navy);color:var(--white);padding:110px 0 0;position:relative;overflow:hidden}
-  .vision{padding-bottom:120px}
-  .vision .rom-white{display:block;width:min(400px,60vw);margin:0 0 48px calc(-1 * var(--gutter))}
-  @media (max-width:860px){.vision{padding-top:64px}}
+  .vision{background:var(--navy);color:var(--white);padding:120px 0 140px;position:relative;overflow:hidden}
   .parallax{transform:translate3d(0,var(--py,0px),0);will-change:transform}
-  .media{position:relative;--c:clamp(220px,30vw,380px)}
-  .media .pink{position:absolute;width:var(--c);height:auto;right:calc(-1 * var(--gutter) - var(--c) / 2);bottom:calc(var(--c) * -.35);z-index:2;pointer-events:none}
-  .vision-video{position:relative;z-index:1;aspect-ratio:16/10}
-  .vision-video img{opacity:1}
-  .vision p{font-size:1.15rem;opacity:.9;margin-top:16px}
-  .verse{margin-top:40px;padding-left:24px;border-left:4px solid var(--rom-yellow)}
-  .verse blockquote{font-family:var(--display);font-size:clamp(1.5rem,2.6vw,2rem);line-height:1.25;color:var(--rom-yellow)}
+  .vision-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(40px,6vw,96px);align-items:center}
+  .vision .rom-white{display:block;width:calc(100% + var(--gutter));max-width:640px;margin-left:calc(-1 * var(--gutter))}
+  .vision-copy p{font-size:1.15rem;opacity:.9;margin-top:16px;max-width:560px}
+  .verse{margin-top:36px;padding-left:24px;border-left:4px solid var(--rom-yellow)}
+  .verse blockquote{font-family:var(--display);font-size:clamp(1.5rem,2.4vw,2rem);line-height:1.25;color:var(--rom-yellow)}
   .verse cite{display:block;margin-top:10px;font-style:normal;font-weight:700;letter-spacing:.14em;font-size:.8rem;text-transform:uppercase}
-  .tagline{font-family:var(--display);font-size:clamp(1.8rem,3.4vw,2.6rem);margin-top:40px;line-height:1.15}
+
+  .statement{font-family:var(--display);font-weight:600;font-size:clamp(2.2rem,5.4vw,4.6rem);line-height:1.05;text-align:center;max-width:1000px;margin:clamp(96px,12vw,160px) auto clamp(64px,8vw,104px)}
+  .statement em{font-style:normal;color:var(--rom-yellow)}
+
+  .film{position:relative;margin-right:calc(-1 * var(--gutter));--c:clamp(200px,24vw,420px)}
+  .film .player{aspect-ratio:21/9;border-radius:6px 0 0 6px}
+  .film .player img{opacity:.7}
+  .film .player:hover img{opacity:.85}
+  .film-label{position:absolute;left:clamp(20px,4vw,56px);bottom:clamp(20px,4vw,48px);z-index:2;pointer-events:none}
+  .film-label .eyebrow{color:var(--rom-yellow)}
+  .film-label strong{display:block;font-family:var(--display);font-weight:600;font-size:clamp(1.6rem,3.4vw,3rem);line-height:1.05;margin-top:6px}
+  .film .pink{position:absolute;width:var(--c);height:auto;right:calc(var(--c) * -.5);top:calc(var(--c) * -.5);z-index:3;pointer-events:none}
+  @media (max-width:860px){
+    .vision{padding:72px 0 96px}
+    .vision-grid{grid-template-columns:1fr;gap:40px}
+    .vision .rom-white{width:min(62vw,340px)}
+    .film .player{aspect-ratio:4/3}
+    .film-label{left:20px;bottom:20px}
+    .film .player .play{place-items:start end;padding:20px}
+  }
 
   .divider{display:flex;justify-content:center;padding:0}
   .divider img{width:64px;height:auto;margin:-32px auto;position:relative;z-index:3;transform:translate3d(0,var(--py,0px),0)}
@@ -264,23 +278,25 @@
 
   <section class="vision" id="vision">
     <div class="wrap">
-      <img class="rom-white parallax" data-speed="0.06" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c190324f-fd46-46be-8478-14b7d6dac76b/ROM-MainLogo_White-cut.png?format=1000w" alt="Reach One More">
-    </div>
-    <div class="wrap split">
-      <div>
-        <p class="eyebrow" style="color:var(--rom-yellow)">Our Vision</p>
-        <h2>Reach one more.</h2>
-        <p>Reach One More is an evangelistic initiative built on a value CCC has held for a century: there is always one more person to reach. A friend. A neighbor. Someone in a hard-to-reach place who has never heard the name of Jesus.</p>
-        <div class="verse">
-          <blockquote>And the Lord added to their number daily those who were being saved.</blockquote>
-          <cite>Acts 2:47b</cite>
+      <div class="vision-grid">
+        <img class="rom-white parallax" data-speed="0.05" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c190324f-fd46-46be-8478-14b7d6dac76b/ROM-MainLogo_White-cut.png?format=1500w" alt="Reach One More">
+        <div class="vision-copy">
+          <p class="eyebrow" style="color:var(--rom-yellow)">Our Vision</p>
+          <h2>There is always one more.</h2>
+          <p>Reach One More is an evangelistic initiative built on a value CCC has held for a century. A friend. A neighbor. Someone in a hard-to-reach place who has never heard the name of Jesus.</p>
+          <div class="verse">
+            <blockquote>And the Lord added to their number daily those who were being saved.</blockquote>
+            <cite>Acts 2:47b</cite>
+          </div>
         </div>
-        <p class="tagline">Because lost and hurting people matter to God.</p>
       </div>
-      <div class="media">
-        <!-- Vision video: paste the Vimeo ID into data-vimeo -->
-        <div class="player vision-video parallax" data-speed="0.04" data-vimeo="1035732323" data-title="Reach One More vision video" data-poster="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=1500w"></div>
-        <img class="pink parallax" data-speed="-0.14" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt="" aria-hidden="true">
+
+      <p class="statement reveal">Because lost and hurting people <em>matter to God.</em></p>
+
+      <div class="film" data-popup>
+        <div class="player" data-vimeo="1035732323" data-title="The Reach One More Story" data-poster="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=2500w"></div>
+        <div class="film-label"><p class="eyebrow">Watch</p><strong>The Reach One More Story</strong></div>
+        <img class="pink parallax" data-speed="-0.12" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt="" aria-hidden="true">
       </div>
     </div>
   </section>
