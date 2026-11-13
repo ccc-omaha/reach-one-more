@@ -71,7 +71,8 @@
   .z-ring{position:absolute;left:50%;top:50%;width:var(--d,var(--L));height:var(--d,var(--L));transform:translate(-50%,-50%);border-radius:50%;border:var(--bw,2px) solid #F7CB33}
   .stage{--L:clamp(300px,40vw,560px)}
   @media (max-width:700px){.stage{--L:78vw}}
-  .z-logo{opacity:var(--lo,1)}
+  .z-logo{opacity:var(--lo,1);filter:blur(var(--mb,0px))}
+  .z-ring,.z-photo img{filter:blur(var(--mb,0px))}
   .z-ring{opacity:var(--ro,0)}
   .z-cue{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-weight:700;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--navy);opacity:var(--co,1);display:flex;flex-direction:column;align-items:center;gap:8px}
   .z-cue::after{content:"";width:1px;height:34px;background:currentColor;animation:cue 1.8s ease-in-out infinite;transform-origin:top}
@@ -277,7 +278,7 @@
 
 <header class="site-header">
   <div class="wrap">
-    <a href="https://cccomaha.org" aria-label="Christ Community Church home">
+    <a href="#top" class="to-top" aria-label="Back to top">
       <img src="images/CCC-Long---yellow.webp" alt="Christ Community Church">
     </a>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
@@ -644,13 +645,15 @@
     else io.observe(el);
   });
 
+  document.querySelector('.to-top').addEventListener('click', e => { e.preventDefault(); scrollTo({ top: 0, behavior: 'smooth' }); history.replaceState(null, '', location.pathname); });
+
   // Opening: scroll carries you through the circle
   (() => {
     const zoom = document.querySelector('.zoom'), stage = zoom.querySelector('.stage');
     if (reduce) { zoom.classList.add('static'); return; }
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
     const smooth = t => t * t * (3 - 2 * t);
-    let ticking = false;
+    let ticking = false, lastR = null, mb = 0, decay = null;
     const draw = () => {
       ticking = false;
       const dist = zoom.offsetHeight - innerHeight;
@@ -669,6 +672,14 @@
       st.setProperty('--ir', ((L / 2) * s * 0.975).toFixed(1) + 'px');
       st.setProperty('--ps', (1 + p * 0.25).toFixed(4));
       st.setProperty('--co', (1 - clamp(p / 0.06, 0, 1)).toFixed(3));
+      // motion blur: proportional to how fast the ring is growing, eases off when scrolling stops
+      const r = (L / 2) * s;
+      if (lastR !== null) mb = Math.max(mb * 0.6, Math.min(12, Math.abs(r - lastR) * 0.06));
+      lastR = r;
+      st.setProperty('--mb', mb.toFixed(2) + 'px');
+      cancelAnimationFrame(decay);
+      const fade = () => { mb *= 0.8; if (mb < 0.05) mb = 0; st.setProperty('--mb', mb.toFixed(2) + 'px'); if (mb) decay = requestAnimationFrame(fade); };
+      decay = requestAnimationFrame(fade);
     };
     addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }, { passive: true });
     addEventListener('resize', draw);
