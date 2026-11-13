@@ -1,0 +1,29 @@
+{
+  "intro": "Given over thirteen months to fund local and global missions, improve CCC's spaces for discipleship, and equip the next generation.",
+  "coreAmount": 8800000,
+  "here": {
+    "amount": 890000,
+    "items": [
+      "Multiply the Deaf Ministry",
+      "Refresh the Student Center",
+      "Expand the kids' Sports Ministry"
+    ]
+  },
+  "there": {
+    "amount": 900000,
+    "items": [
+      "Reach overlooked children through local schools and Camp Rivercrest",
+      "Create counselor scholarships",
+      "Partner with organizations caring for hurting people"
+    ]
+  },
+  "everywhere": {
+    "amount": 1590000,
+    "items": [
+      "Join the Green City Initiative",
+      "Serve least-reached nations through the Great Commission Fund",
+      "Resource the planting of 27 churches among least-reached peoples"
+    ]
+  },
+  "churchesCaption": "27 churches by 2027"
+}

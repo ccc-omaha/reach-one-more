@@ -1,7 +1,7 @@
 [build]
   publish = "."
+  command = "node build.js"
 
-# Old Squarespace pages now live on the single page
 [[redirects]]
   from = "/stories"
   to = "/#stories"

@@ -1,0 +1,256 @@
+# Pages CMS configuration for reachonemore.cccomaha.org
+# Staff edit at https://app.pagescms.org. Saving commits to GitHub,
+# Netlify rebuilds the page from these files and republishes in about a minute.
+# Text fields accept **bold**, *italic* and [link text](https://...).
+
+settings:
+  commit:
+    identity: user   # record the staff member's name on each saved change
+
+media:
+  input: images
+  output: /images
+  rename: safe
+  extensions: [jpg, jpeg, png, webp]
+
+content:
+  # ---------------------------------------------------------------
+  - name: vision
+    label: "1. Intro and vision (navy section)"
+    type: file
+    path: content/vision.json
+    format: json
+    fields:
+      - name: intro
+        label: Intro paragraph
+        type: text
+        description: The large centered paragraph right after the circle opening.
+      - name: archiveNote
+        label: Yellow pill note
+        type: text
+        description: The note in the yellow pill under the intro. Wrap words in **double asterisks** to bold them.
+      - name: heading
+        label: Vision heading
+        type: string
+        description: The big serif heading under "Our Vision".
+      - name: text
+        label: Vision paragraph
+        type: text
+        description: The paragraph under the vision heading.
+      - name: verse
+        label: Scripture verse
+        type: text
+        description: The yellow quote to the right of the vision paragraph.
+      - name: verseRef
+        label: Scripture reference
+        type: string
+        description: Shown under the verse, for example Acts 2:47b.
+      - name: statement
+        label: Big statement, white part
+        type: string
+        description: The first part of the large centered line above the video.
+      - name: statementHighlight
+        label: Big statement, yellow part
+        type: string
+        description: The end of that line, shown in yellow.
+      - name: videoTitle
+        label: Vision video title
+        type: string
+        description: The title over the playing video banner.
+      - name: videoLink
+        label: Vision video (Vimeo link)
+        type: string
+        description: Paste the vimeo.com link. It plays muted in the banner and with sound when clicked.
+
+  # ---------------------------------------------------------------
+  - name: goals
+    label: "2. Primary goal (100% engagement)"
+    type: file
+    path: content/goals.json
+    format: json
+    fields:
+      - name: intro
+        label: Line under "100% Engagement"
+        type: text
+      - name: caption
+        label: Caption under the people icons
+        type: string
+        description: Words in **double asterisks** turn yellow.
+      - name: cards
+        label: Three cards
+        type: object
+        list: { min: 3, max: 3 }
+        description: In order, these use the speech bubble, steps and heart icons.
+        fields:
+          - name: title
+            label: Card title
+            type: string
+          - name: text
+            label: Card text
+            type: text
+
+  # ---------------------------------------------------------------
+  - name: giving
+    label: "3. Secondary goal (giving)"
+    type: file
+    path: content/giving.json
+    format: json
+    fields:
+      - name: intro
+        label: Line under the total
+        type: text
+        description: The total ($12.2 Million) and both bar charts are calculated from the amounts below.
+      - name: coreAmount
+        label: Core ministry amount
+        type: number
+        description: Whole dollars, no commas. Example 8800000.
+      - name: here
+        label: Here
+        type: object
+        fields:
+          - { name: amount, label: Amount (whole dollars), type: number }
+          - { name: items, label: What it funded, type: string, list: true }
+      - name: there
+        label: There
+        type: object
+        fields:
+          - { name: amount, label: Amount (whole dollars), type: number }
+          - { name: items, label: What it funded, type: string, list: true }
+      - name: everywhere
+        label: Everywhere
+        type: object
+        fields:
+          - { name: amount, label: Amount (whole dollars), type: number }
+          - { name: items, label: What it funded, type: string, list: true }
+      - name: churchesCaption
+        label: Caption under the church icons
+        type: string
+
+  # ---------------------------------------------------------------
+  - name: stories
+    label: "4. Stories (videos)"
+    type: file
+    path: content/stories.json
+    format: json
+    fields:
+      - name: heading
+        label: Heading
+        type: string
+      - name: intro
+        label: Line under the heading
+        type: text
+      - name: videos
+        label: Story videos
+        type: object
+        list: true
+        description: Each one opens in a popup player. Thumbnails come from Vimeo automatically.
+        fields:
+          - name: name
+            label: Name shown under the video
+            type: string
+            required: true
+          - name: link
+            label: Vimeo link
+            type: string
+            required: true
+            description: Paste the vimeo.com link.
+
+  # ---------------------------------------------------------------
+  - name: letter
+    label: "5. Letter from Minister Mark Ashton"
+    type: file
+    path: content/letter.json
+    format: json
+    fields:
+      - name: label
+        label: Small label above the heading
+        type: string
+      - name: heading
+        label: Heading
+        type: string
+      - name: paragraphs
+        label: Letter paragraphs
+        type: text
+        list: true
+        description: One paragraph per item.
+      - name: signoff
+        label: Name under the signature
+        type: string
+      - name: role
+        label: Title
+        type: string
+      - name: photo
+        label: Large photo
+        type: image
+      - name: portrait
+        label: Round portrait
+        type: image
+        description: Square photos work best.
+
+  # ---------------------------------------------------------------
+  - name: faq
+    label: "6. FAQ"
+    type: file
+    path: content/faq.json
+    format: json
+    list: true
+    fields:
+      - name: question
+        label: Question
+        type: string
+        required: true
+      - name: answer
+        label: Answer
+        type: text
+        required: true
+        description: Links use [link text](https://...).
+
+  # ---------------------------------------------------------------
+  - name: photos
+    label: "7. Background photos"
+    type: file
+    path: content/photos.json
+    format: json
+    fields:
+      - name: hero
+        label: Opening photo (behind the circle)
+        type: image
+      - name: visionVideoPoster
+        label: Vision video still
+        type: image
+        description: Shown until the video starts playing.
+      - name: band1
+        label: First full-width photo (after the video)
+        type: image
+      - name: band1Focus
+        label: First photo crop
+        type: select
+        options: { values: [ { name: "15%", label: Top }, { name: "35%", label: Upper third }, { name: "50%", label: Center }, { name: "65%", label: Lower third }, { name: "80%", label: Bottom } ] }
+      - name: band1Label
+        label: First photo description (for screen readers)
+        type: string
+      - name: band2
+        label: Second full-width photo (before giving)
+        type: image
+      - name: band2Focus
+        label: Second photo crop
+        type: select
+        options: { values: [ { name: "15%", label: Top }, { name: "35%", label: Upper third }, { name: "50%", label: Center }, { name: "65%", label: Lower third }, { name: "80%", label: Bottom } ] }
+      - name: band2Label
+        label: Second photo description (for screen readers)
+        type: string
+      - name: storiesBackground
+        label: Stories section background
+        type: image
+
+  # ---------------------------------------------------------------
+  - name: footer
+    label: "8. Footer"
+    type: file
+    path: content/footer.json
+    format: json
+    fields:
+      - { name: addressLine1, label: Address line 1, type: string }
+      - { name: addressLine2, label: Address line 2, type: string }
+      - { name: phone, label: Phone, type: string }
+      - { name: email, label: Email, type: string }
