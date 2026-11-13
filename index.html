@@ -269,8 +269,8 @@
         <p class="tagline">Because lost and hurting people matter to God.</p>
       </div>
       <div class="media">
-        <!-- Vision video: paste the YouTube ID into data-youtube -->
-        <div class="player vision-video parallax" data-speed="0.04" data-youtube="" data-title="Reach One More vision video" data-poster="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=1500w"></div>
+        <!-- Vision video: paste the Vimeo ID into data-vimeo -->
+        <div class="player vision-video parallax" data-speed="0.04" data-vimeo="" data-title="Reach One More vision video" data-poster="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=1500w"></div>
         <img class="pink parallax" data-speed="-0.14" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt="" aria-hidden="true">
       </div>
     </div>
@@ -374,13 +374,13 @@
         <h2>Everyone has a one more.</h2>
         <p>People from our church family share who God put in their path and what happened when they said yes.</p>
       </div>
-      <!-- Paste each YouTube video ID into data-youtube (the part after watch?v=) -->
+      <!-- Vimeo video IDs (the number at the end of the vimeo.com link) -->
       <div class="videos">
-        <div class="video"><div class="player" data-youtube=""></div><h3>Chris Raabe</h3></div>
-        <div class="video"><div class="player" data-youtube=""></div><h3>Carol Denny</h3></div>
-        <div class="video"><div class="player" data-youtube=""></div><h3>Kylie Cole</h3></div>
-        <div class="video"><div class="player" data-youtube=""></div><h3>Scott Momsen</h3></div>
-        <div class="video"><div class="player" data-youtube=""></div><h3>Jen &amp; Nick</h3></div>
+        <div class="video"><div class="player" data-vimeo="1033649156"></div><h3>Chris Raabe</h3></div>
+        <div class="video"><div class="player" data-vimeo="1033647273"></div><h3>Carol Denny</h3></div>
+        <div class="video"><div class="player" data-vimeo="1033647815"></div><h3>Kylie Cole</h3></div>
+        <div class="video"><div class="player" data-vimeo="885004363"></div><h3>Scott Momsen</h3></div>
+        <div class="video"><div class="player" data-vimeo="879128032"></div><h3>Jen &amp; Nick</h3></div>
       </div>
     </div>
   </section>
@@ -477,18 +477,29 @@
   }));
 
   // Lightweight YouTube embeds: thumbnail first, iframe on click
+  // Vimeo players: thumbnail first, iframe on click
   document.querySelectorAll('.player').forEach(p => {
-    const id = p.dataset.youtube.trim(), poster = p.dataset.poster;
+    const id = (p.dataset.vimeo || '').trim(), poster = p.dataset.poster;
+    const title = p.dataset.title || (p.nextElementSibling && p.nextElementSibling.textContent) || 'Video';
     if (!id) {
       if (poster) { p.style.cursor = 'default'; p.innerHTML = `<img src="${poster}" alt="">`; }
       else { p.classList.add('empty'); p.textContent = 'Video coming soon'; }
       return;
     }
-    const thumb = poster || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-    p.innerHTML = `<img src="${thumb}" alt="" loading="lazy"><div class="play"><span></span></div>`;
-    p.addEventListener('click', () => {
-      p.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${p.dataset.title || (p.nextElementSibling && p.nextElementSibling.textContent) || 'Video'}"></iframe>`;
-    }, { once: true });
+    p.innerHTML = `${poster ? `<img src="${poster}" alt="">` : '<img alt="" loading="lazy">'}<div class="play"><span></span></div>`;
+    p.setAttribute('role', 'button'); p.setAttribute('aria-label', 'Play ' + title); p.tabIndex = 0;
+    if (!poster) {
+      fetch(`https://vimeo.com/api/oembed.json?url=${encodeURIComponent('https://vimeo.com/' + id)}&width=960`)
+        .then(r => r.ok ? r.json() : null)
+        .then(d => { const img = p.querySelector('img'); if (d && img) img.src = d.thumbnail_url.replace(/_\d+x\d+/, '_960'); })
+        .catch(() => {});
+    }
+    const play = () => {
+      p.innerHTML = `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1&dnt=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="${title}"></iframe>`;
+      p.style.cursor = 'default';
+    };
+    p.addEventListener('click', play, { once: true });
+    p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); } }, { once: true });
   });
 
   // Build people grid (100) and church icons (27)
