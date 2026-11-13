@@ -105,7 +105,7 @@
   .zoom.sd .z-cue{transform:translateX(-50%)}
   .z-disc{border-radius:50%;background:var(--navy);opacity:0}
   .z-photo img{will-change:transform}
-  .stage{--L:clamp(300px,40vw,560px)}
+  .stage{--L:clamp(300px,min(40vw,62vh),900px)}
   @media (max-width:700px){.stage{--L:78vw}}
   .z-cue{text-decoration:none;cursor:pointer;padding:8px 16px;z-index:3;position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-weight:700;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--navy);opacity:var(--co,1);display:flex;flex-direction:column;align-items:center;gap:8px}
   .z-cue::after{content:"";width:1px;height:34px;background:currentColor;animation:cue 1.8s ease-in-out infinite;transform-origin:top}
