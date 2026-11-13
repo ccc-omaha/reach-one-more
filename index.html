@@ -64,16 +64,15 @@
   .zoom{position:relative;height:130vh;height:130svh;margin-top:-68px}
   .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#fff}
   .z-photo{position:absolute;left:0;right:0;top:0;height:50%;overflow:hidden;background:#111}
-  .z-photo img{width:100%;height:100%;object-fit:cover;transform:scale(var(--ps,1));transform-origin:50% 100%}
+  .z-photo img{width:100%;height:100%;object-fit:cover;transform-origin:50% 100%}
   .z-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,61,.05) 40%,rgba(0,0,61,.55))}
-  .z-inside{position:absolute;inset:0;background:var(--navy);opacity:var(--io,0);clip-path:circle(var(--ir,0px) at 50% 50%)}
-  .z-logo{position:absolute;left:50%;top:50%;width:var(--L);height:var(--L);transform:translate(-50%,-50%) scale(var(--s,1))}
-  .z-ring{position:absolute;left:50%;top:50%;width:var(--d,var(--L));height:var(--d,var(--L));transform:translate(-50%,-50%);border-radius:50%;border:var(--bw,2px) solid #F7CB33}
+  .z-logo,.z-ring,.z-disc{position:absolute;left:50%;top:50%;will-change:transform,opacity;backface-visibility:hidden}
+  .z-logo{width:var(--L);height:var(--L);transform:translate(-50%,-50%)}
+  .z-ring{opacity:0;overflow:visible}
+  .z-disc{border-radius:50%;background:var(--navy);opacity:0}
+  .z-photo img{will-change:transform}
   .stage{--L:clamp(300px,40vw,560px)}
   @media (max-width:700px){.stage{--L:78vw}}
-  .z-logo{opacity:var(--lo,1);filter:blur(var(--mb,0px))}
-  .z-ring,.z-photo img{filter:blur(var(--mb,0px))}
-  .z-ring{opacity:var(--ro,0)}
   .z-cue{text-decoration:none;cursor:pointer;padding:8px 16px;z-index:3;position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-weight:700;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--navy);opacity:var(--co,1);display:flex;flex-direction:column;align-items:center;gap:8px}
   .z-cue::after{content:"";width:1px;height:34px;background:currentColor;animation:cue 1.8s ease-in-out infinite;transform-origin:top}
   @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -296,9 +295,9 @@
   <section class="zoom" id="top" aria-label="Reach One More">
     <div class="stage">
       <div class="z-photo"><img src="images/iStock-1372330333.webp" alt=""></div>
-      <div class="z-inside"></div>
+      <div class="z-disc"></div>
       <img class="z-logo" src="images/ROM-MainLogo-S3_Yellow.webp" alt="Reach One More">
-      <div class="z-ring" aria-hidden="true"></div>
+      <svg class="z-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48.71" fill="none" stroke="#F7CB33" stroke-width="2.58"/></svg>
       <a class="z-cue" href="#vision" aria-label="Scroll to the vision">Scroll</a>
     </div>
   </section>
@@ -690,43 +689,55 @@
   let idle = setTimeout(() => { if (scrollY < 10) glideTo(visionY(), 2400); }, 4500);
   ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(ev => addEventListener(ev, () => { clearTimeout(idle); cancelGlide = true; }, { passive: true }));
 
-  // Opening: scroll carries you through the circle
+  // Opening: scroll carries you through the circle.
+  // Only transform and opacity change per frame (GPU-composited). The ring and disc are drawn
+  // at their largest size and scaled down, so the line stays sharp without re-rasterizing.
   (() => {
     const zoom = document.querySelector('.zoom'), stage = zoom.querySelector('.stage');
     if (reduce) { zoom.classList.add('static'); return; }
+    const logo = stage.querySelector('.z-logo'), ring = stage.querySelector('.z-ring'),
+          disc = stage.querySelector('.z-disc'), photo = stage.querySelector('.z-photo img'),
+          cue = stage.querySelector('.z-cue');
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
     const smooth = t => t * t * (3 - 2 * t);
-    let ticking = false, lastR = null, mb = 0, decay = null;
+    let L, sMax, top, dist, big, desktop, ticking = false, lastS = null, mb = 0;
+    const measure = () => {
+      L = logo.offsetWidth;
+      sMax = (Math.hypot(innerWidth, innerHeight) / L) * 1.25;
+      big = Math.ceil(L * sMax);
+      top = zoom.offsetTop; dist = zoom.offsetHeight - innerHeight;
+      desktop = innerWidth > 860;
+      ring.style.width = ring.style.height = big + 'px';
+      const d = Math.ceil(big * 0.975);
+      disc.style.width = disc.style.height = d + 'px';
+      disc.dataset.d = d;
+    };
     const draw = () => {
       ticking = false;
-      const dist = zoom.offsetHeight - innerHeight;
-      const p = clamp((scrollY - zoom.offsetTop) / dist, 0, 1);
-      const L = stage.querySelector('.z-logo').offsetWidth;
-      const reach = Math.hypot(innerWidth, innerHeight) / 2;     // radius needed to clear the screen
-      const sMax = (reach / (L / 2)) * 1.25;
+      const p = clamp((scrollY - top) / dist, 0, 1);
       const s = 1 + (sMax - 1) * Math.pow(Math.min(1, p / 0.9), 1.8);
-      const st = stage.style;
-      st.setProperty('--s', s.toFixed(4));
-      st.setProperty('--lo', (1 - smooth(clamp(p / 0.12, 0, 1))).toFixed(3));
-      st.setProperty('--ro', smooth(clamp(p / 0.06, 0, 1)).toFixed(3));
-      st.setProperty('--io', smooth(clamp((p - 0.1) / 0.35, 0, 1)).toFixed(3));
-      st.setProperty('--d', (L * s).toFixed(1) + 'px');
-      st.setProperty('--bw', (L * s * 0.0258).toFixed(2) + 'px');
-      st.setProperty('--ir', ((L / 2) * s * 0.975).toFixed(1) + 'px');
-      st.setProperty('--ps', (1 + p * 0.25).toFixed(4));
-      st.setProperty('--co', (1 - clamp(p / 0.06, 0, 1)).toFixed(3));
-      // motion blur: proportional to how fast the ring is growing, eases off when scrolling stops
-      const r = (L / 2) * s;
-      if (lastR !== null) mb = Math.max(mb * 0.85, Math.min(18, Math.abs(r - lastR) * 0.25));
-      lastR = r;
-      st.setProperty('--mb', mb.toFixed(2) + 'px');
-      cancelAnimationFrame(decay);
-      const fade = () => { mb *= 0.9; if (mb < 0.05) mb = 0; st.setProperty('--mb', mb.toFixed(2) + 'px'); if (mb) decay = requestAnimationFrame(fade); };
-      decay = requestAnimationFrame(fade);
+      const k = s / sMax;
+      ring.style.transform = `translate(-50%,-50%) scale(${k.toFixed(5)})`;
+      disc.style.transform = `translate(-50%,-50%) scale(${k.toFixed(5)})`;
+      logo.style.transform = `translate(-50%,-50%) scale(${s.toFixed(4)})`;
+      logo.style.opacity = (1 - smooth(clamp(p / 0.12, 0, 1))).toFixed(3);
+      ring.style.opacity = smooth(clamp(p / 0.06, 0, 1)).toFixed(3);
+      disc.style.opacity = smooth(clamp((p - 0.1) / 0.35, 0, 1)).toFixed(3);
+      photo.style.transform = `scale(${(1 + p * 0.25).toFixed(4)})`;
+      cue.style.opacity = (1 - clamp(p / 0.06, 0, 1)).toFixed(3);
+      // motion blur on desktop only; filters are too costly to animate on phones
+      if (desktop) {
+        if (lastS !== null) mb = Math.max(mb * 0.85, Math.min(14, Math.abs(s - lastS) * L * 0.12));
+        lastS = s;
+        ring.style.filter = mb > 0.3 ? `blur(${mb.toFixed(1)}px)` : '';
+        if (mb > 0.3) { mb *= 0.9; if (!ticking) { ticking = true; requestAnimationFrame(draw); } } else mb = 0;
+      }
     };
-    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }, { passive: true });
-    addEventListener('resize', draw);
-    draw();
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => { measure(); draw(); });
+    addEventListener('load', () => { measure(); draw(); });
+    measure(); draw();
   })();
 
   // Parallax: elements with data-speed drift as they pass through the viewport
