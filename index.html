@@ -98,9 +98,12 @@
     .vision{padding:72px 0 96px}
     .vision-grid{grid-template-columns:1fr;gap:40px}
     .vision .rom-white{width:min(62vw,340px)}
-    .film .player{aspect-ratio:4/3}
-    .film-label{left:20px;bottom:20px}
-    .film .player .play{place-items:start end;padding:20px}
+    .film{margin-left:calc(-1 * var(--gutter));--c:150px}
+    .film .player{aspect-ratio:16/9;border-radius:0}
+    .film .player .play span{width:56px;height:56px}
+    .film-label{left:20px;bottom:16px}
+    .film-label strong{font-size:1.5rem}
+    .film .pink{top:auto;bottom:calc(var(--c) * -.5);right:calc(var(--c) * -.5)}
   }
 
   .divider{display:flex;justify-content:center;padding:0}
