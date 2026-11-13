@@ -23,9 +23,11 @@
     --sans:"proxima-nova", "Helvetica Neue", Arial, sans-serif;
     --display:"quincy-cf", "ivypresto-display", Georgia, serif;
     --wrap:1180px;
+    --gutter:max(24px, calc((100vw - 1180px) / 2));
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;scroll-padding-top:72px}
+  html,body{overflow-x:clip}
   body{font-family:var(--sans);color:var(--ink);background:var(--white);line-height:1.6;font-size:18px;-webkit-font-smoothing:antialiased}
   img{display:block;max-width:100%}
   a{color:inherit}
@@ -51,9 +53,11 @@
   }
 
   /* Hero with overlapping logo */
-  .hero{position:relative;height:min(78vh,720px);min-height:420px;background:#111 center/cover no-repeat}
-  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,61,.05) 40%,rgba(0,0,61,.55))}
-  .hero-logo{position:absolute;left:50%;bottom:0;transform:translate(-50%,50%);z-index:2;width:clamp(280px,34vw,440px)}
+  .hero{position:relative;height:min(78vh,720px);min-height:420px;background:#111}
+  .hero-bg{position:absolute;inset:0;overflow:hidden}
+  .hero-bg img,.band img{position:absolute;left:0;top:-15%;width:100%;height:130%;object-fit:cover;transform:translate3d(0,var(--py,0px),0);will-change:transform}
+  .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,61,.05) 40%,rgba(0,0,61,.55))}
+  .hero-logo{position:absolute;left:50%;bottom:0;transform:translate(-50%,50%) translate3d(0,var(--py,0px),0);z-index:2;width:clamp(280px,34vw,440px)}
   .hero-logo img{width:100%}
   @media (max-width:700px){.hero-logo{width:78vw}}
 
@@ -70,10 +74,14 @@
 
   /* Vision */
   .vision{background:var(--navy);color:var(--white);padding:110px 0 0;position:relative;overflow:hidden}
-  .vision .rom-white{width:min(520px,100%);margin-bottom:40px}
-  @media (max-width:860px){.vision{padding-top:72px}.vision .rom-white{width:86vw}}
-  .circle-row{position:relative;height:clamp(180px,22vw,300px);margin-top:40px}
-  .circle-row img{position:absolute;right:calc(clamp(180px,22vw,300px) * -.5);top:0;height:100%;width:auto;pointer-events:none}
+  .vision{padding-bottom:120px}
+  .vision .rom-white{display:block;width:min(400px,60vw);margin:0 0 48px calc(-1 * var(--gutter))}
+  @media (max-width:860px){.vision{padding-top:64px}}
+  .parallax{transform:translate3d(0,var(--py,0px),0);will-change:transform}
+  .media{position:relative;--c:clamp(220px,30vw,380px)}
+  .media .pink{position:absolute;width:var(--c);height:auto;right:calc(-1 * var(--gutter) - var(--c) / 2);bottom:calc(var(--c) * -.35);z-index:2;pointer-events:none}
+  .vision-video{position:relative;z-index:1;aspect-ratio:16/10}
+  .vision-video img{opacity:1}
   .vision p{font-size:1.15rem;opacity:.9;margin-top:16px}
   .verse{margin-top:40px;padding-left:24px;border-left:4px solid var(--rom-yellow)}
   .verse blockquote{font-family:var(--display);font-size:clamp(1.5rem,2.6vw,2rem);line-height:1.25;color:var(--rom-yellow)}
@@ -81,10 +89,10 @@
   .tagline{font-family:var(--display);font-size:clamp(1.8rem,3.4vw,2.6rem);margin-top:40px;line-height:1.15}
 
   .divider{display:flex;justify-content:center;padding:0}
-  .divider img{width:64px;height:auto;margin:-32px auto;position:relative;z-index:3}
+  .divider img{width:64px;height:auto;margin:-32px auto;position:relative;z-index:3;transform:translate3d(0,var(--py,0px),0)}
 
   /* Banner photo */
-  .band{height:clamp(240px,40vw,460px);background:center/cover no-repeat}
+  .band{position:relative;overflow:hidden;height:clamp(240px,40vw,460px);background:#111}
 
   /* Goals */
   .goals{padding:96px 0}
@@ -136,7 +144,7 @@
   .letter .split{align-items:start}
   .letter-photos{position:relative}
   .letter-photos .preach{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
-  .letter-photos .portrait{position:absolute;width:42%;aspect-ratio:1;object-fit:cover;border-radius:50%;right:-24px;bottom:-24px;border:8px solid var(--cream)}
+  .letter-photos .portrait{position:absolute;width:42%;aspect-ratio:1;object-fit:cover;border-radius:50%;right:-24px;bottom:-24px;border:8px solid var(--cream);transform:translate3d(0,var(--py,0px),0)}
   .letter-body p{margin-top:18px}
   .letter-body .sig{width:220px;max-width:70%;height:auto;margin-top:28px;mix-blend-mode:multiply}
   .letter-body .signoff{font-weight:700;margin-top:4px}
@@ -184,8 +192,9 @@
 </header>
 
 <main>
-  <section class="hero" style="background-image:url('https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/8bd655be-f391-478f-9911-c3b7684877ce/iStock-1372330333.jpg?format=2500w')" aria-label="Reach One More">
-    <div class="hero-logo">
+  <section class="hero" aria-label="Reach One More">
+    <div class="hero-bg"><img data-speed="0.12" data-max="0.14" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/8bd655be-f391-478f-9911-c3b7684877ce/iStock-1372330333.jpg?format=2500w" alt=""></div>
+    <div class="hero-logo" data-speed="-0.06">
       <img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/2528af29-7cf5-4cbc-9c94-d8cc1d7c84e6/ROM-MainLogo-S3_Yellow.png?format=750w" alt="Reach One More">
     </div>
   </section>
@@ -199,9 +208,11 @@
   </section>
 
   <section class="vision" id="vision">
+    <div class="wrap">
+      <img class="rom-white parallax" data-speed="0.06" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c190324f-fd46-46be-8478-14b7d6dac76b/ROM-MainLogo_White-cut.png?format=1000w" alt="Reach One More">
+    </div>
     <div class="wrap split">
       <div>
-        <img class="rom-white" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c190324f-fd46-46be-8478-14b7d6dac76b/ROM-MainLogo_White-cut.png?format=750w" alt="Reach One More">
         <p class="eyebrow" style="color:var(--rom-yellow)">Our Vision</p>
         <h2>Reach one more.</h2>
         <p>Reach One More is an evangelistic initiative built on a value CCC has held for a century: there is always one more person to reach. A friend. A neighbor. Someone in a hard-to-reach place who has never heard the name of Jesus.</p>
@@ -211,13 +222,16 @@
         </div>
         <p class="tagline">Because lost and hurting people matter to God.</p>
       </div>
-      <img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=1500w" alt="">
+      <div class="media">
+        <!-- Vision video: paste the YouTube ID into data-youtube -->
+        <div class="player vision-video parallax" data-speed="0.04" data-youtube="" data-title="Reach One More vision video" data-poster="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=1500w"></div>
+        <img class="pink parallax" data-speed="-0.14" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt="" aria-hidden="true">
+      </div>
     </div>
-    <div class="circle-row" aria-hidden="true"><img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt=""></div>
   </section>
 
-  <div class="band" style="background-image:url('https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c4017b95-7146-4204-b2da-980358b1d0ea/North+Omaha.jpg?format=2500w')" role="img" aria-label="North Omaha"></div>
-  <div class="divider"><img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
+  <div class="band" role="img" aria-label="North Omaha"><img data-speed="0.1" data-max="0.14" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c4017b95-7146-4204-b2da-980358b1d0ea/North+Omaha.jpg?format=2500w" alt=""></div>
+  <div class="divider"><img data-speed="-0.08" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
 
   <section class="goals" id="goals">
     <div class="wrap">
@@ -243,7 +257,7 @@
     </div>
   </section>
 
-  <div class="band" style="background-image:url('https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/47b8f0ad-fe08-43ca-b784-5b56e948f854/Indonesia+-+by+Tyler+Morgan+-+Unsplash+-+Expanded.jpg?format=2500w')" role="img" aria-label="Indonesia"></div>
+  <div class="band" role="img" aria-label="Indonesia"><img data-speed="0.1" data-max="0.14" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/47b8f0ad-fe08-43ca-b784-5b56e948f854/Indonesia+-+by+Tyler+Morgan+-+Unsplash+-+Expanded.jpg?format=2500w" alt=""></div>
 
   <section class="funding">
     <div class="wrap">
@@ -310,7 +324,7 @@
     <div class="wrap split">
       <div class="letter-photos">
         <img class="preach" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/d1cd8428-c271-4c95-bc6b-feb175bb1db3/MARK-PREACHING.jpg?format=1500w" alt="Minister Mark Ashton preaching">
-        <img class="portrait" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/6e58790d-6492-46a4-8133-46a6b653e27b/markel.jpg?format=750w" alt="Minister Mark Ashton">
+        <img class="portrait" data-speed="-0.07" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/6e58790d-6492-46a4-8133-46a6b653e27b/markel.jpg?format=750w" alt="Minister Mark Ashton">
       </div>
       <div class="letter-body">
         <p class="eyebrow">A Letter from Minister Mark Ashton</p>
@@ -326,7 +340,7 @@
     </div>
   </section>
 
-  <div class="divider"><img src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
+  <div class="divider"><img data-speed="-0.08" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
 
   <section class="faq" id="faq">
     <div class="wrap">
@@ -399,13 +413,44 @@
 
   // Lightweight YouTube embeds: thumbnail first, iframe on click
   document.querySelectorAll('.player').forEach(p => {
-    const id = p.dataset.youtube.trim();
-    if (!id) { p.classList.add('empty'); p.textContent = 'Video coming soon'; return; }
-    p.innerHTML = `<img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy"><div class="play"><span></span></div>`;
+    const id = p.dataset.youtube.trim(), poster = p.dataset.poster;
+    if (!id) {
+      if (poster) { p.style.cursor = 'default'; p.innerHTML = `<img src="${poster}" alt="">`; }
+      else { p.classList.add('empty'); p.textContent = 'Video coming soon'; }
+      return;
+    }
+    const thumb = poster || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    p.innerHTML = `<img src="${thumb}" alt="" loading="lazy"><div class="play"><span></span></div>`;
     p.addEventListener('click', () => {
-      p.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${p.nextElementSibling.textContent}"></iframe>`;
+      p.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${p.dataset.title || (p.nextElementSibling && p.nextElementSibling.textContent) || 'Video'}"></iframe>`;
     }, { once: true });
   });
+
+  // Parallax: elements with data-speed drift as they pass through the viewport
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const items = [...document.querySelectorAll('[data-speed]')].map(el => ({ el, speed: +el.dataset.speed, max: +el.dataset.max || 0 }));
+    const measure = () => items.forEach(it => {
+      it.el.style.setProperty('--py', '0px');
+      const r = it.el.getBoundingClientRect();
+      it.mid = r.top + scrollY + r.height / 2; it.h = r.height;
+    });
+    let ticking = false;
+    const update = () => {
+      const center = scrollY + innerHeight / 2;
+      items.forEach(it => {
+        let y = (it.mid - center) * it.speed;
+        if (it.max) y = Math.max(-it.h * it.max, Math.min(it.h * it.max, y));
+        it.el.style.setProperty('--py', y.toFixed(1) + 'px');
+      });
+      ticking = false;
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    const refresh = () => { measure(); update(); };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', refresh);
+    addEventListener('load', refresh);
+    refresh();
+  }
 </script>
 </body>
 </html>
