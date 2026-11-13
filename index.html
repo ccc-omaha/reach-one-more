@@ -77,7 +77,10 @@
   .vision{background:var(--navy);color:var(--white);padding:120px 0 140px;position:relative;overflow:hidden}
   .parallax{transform:translate3d(0,var(--py,0px),0);will-change:transform}
   .vision-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(40px,6vw,96px);align-items:center}
-  .vision .rom-white{display:block;width:calc(100% + var(--gutter));max-width:640px;margin-left:calc(-1 * var(--gutter))}
+  .vision .logo-cell{position:relative}
+  .vision .rom-white{display:none}
+  .vision .rom-full{display:block;width:100%;max-width:520px;margin:0 auto;filter:brightness(0) invert(1)}
+  .vision .halo{position:absolute;inset:50% auto auto 50%;width:135%;aspect-ratio:1;transform:translate(-50%,-50%) translate3d(0,var(--py,0px),0);border-radius:50%;background:radial-gradient(circle,rgba(0,131,224,.28),rgba(0,131,224,0) 62%);pointer-events:none}
   .vision-copy p{font-size:1.15rem;opacity:.9;margin-top:16px;max-width:560px}
   .verse{margin-top:36px;padding-left:24px;border-left:4px solid var(--rom-yellow)}
   .verse blockquote{font-family:var(--display);font-size:clamp(1.5rem,2.4vw,2rem);line-height:1.25;color:var(--rom-yellow)}
@@ -86,19 +89,20 @@
   .statement{font-family:var(--display);font-weight:600;font-size:clamp(2.2rem,5.4vw,4.6rem);line-height:1.05;text-align:center;max-width:1000px;margin:clamp(96px,12vw,160px) auto clamp(64px,8vw,104px)}
   .statement em{font-style:normal;color:var(--rom-yellow)}
 
-  .film{position:relative;margin-right:calc(-1 * var(--gutter));--c:clamp(200px,24vw,420px)}
-  .film .player{aspect-ratio:21/9;border-radius:6px 0 0 6px}
+  .film{position:relative;--c:clamp(200px,20vw,300px)}
+  .film .player{aspect-ratio:21/9;border-radius:6px}
   .film .player img{opacity:.7}
   .film .player:hover img{opacity:.85}
   .film-label{position:absolute;left:clamp(20px,4vw,56px);bottom:clamp(20px,4vw,48px);z-index:2;pointer-events:none}
   .film-label .eyebrow{color:var(--rom-yellow)}
   .film-label strong{display:block;font-family:var(--display);font-weight:600;font-size:clamp(1.6rem,3.4vw,3rem);line-height:1.05;margin-top:6px}
-  .film .pink{position:absolute;width:var(--c);height:auto;right:calc(var(--c) * -.5);top:calc(var(--c) * -.5);z-index:3;pointer-events:none}
+  .film .pink{position:absolute;width:var(--c);height:auto;right:calc(var(--c) * -.38);top:calc(var(--c) * -.42);z-index:3;pointer-events:none}
   @media (max-width:860px){
     .vision{padding:72px 0 96px}
     .vision-grid{grid-template-columns:1fr;gap:40px}
-    .vision .rom-white{width:min(62vw,340px)}
-    .film{margin-left:calc(-1 * var(--gutter));--c:150px}
+    .vision .rom-white{display:block;width:min(62vw,340px);margin-left:calc(-1 * var(--gutter))}
+    .vision .rom-full,.vision .halo{display:none}
+    .film{margin-inline:calc(-1 * var(--gutter));--c:150px}
     .film .player{aspect-ratio:16/9;border-radius:0}
     .film .player .play span{width:56px;height:56px}
     .film-label{left:20px;bottom:16px}
@@ -110,6 +114,7 @@
   .divider img{width:64px;height:auto;margin:-32px auto;position:relative;z-index:3;transform:translate3d(0,var(--py,0px),0)}
 
   /* Banner photo */
+  @media (min-width:861px){.band img{top:-18%;height:136%}}
   .band{position:relative;overflow:hidden;aspect-ratio:2.2/1;min-height:240px;max-height:85vh;background:#111}
 
   /* Goals */
@@ -161,7 +166,7 @@
   .letter{padding:110px 0;background:var(--cream)}
   .letter .split{align-items:start}
   .letter-photos{position:relative}
-  .letter-photos .preach{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
+  .letter-photos .preach{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px;transform:translate3d(0,var(--py,0px),0)}
   .letter-photos .portrait{position:absolute;width:42%;aspect-ratio:1;object-fit:cover;border-radius:50%;right:-24px;bottom:-24px;border:8px solid var(--cream);transform:translate3d(0,var(--py,0px),0)}
   .letter-body p{margin-top:18px}
   .letter-body .sig{width:220px;max-width:70%;height:auto;margin-top:28px;mix-blend-mode:multiply}
@@ -283,8 +288,12 @@
   <section class="vision" id="vision">
     <div class="wrap">
       <div class="vision-grid">
-        <img class="rom-white parallax" data-speed="0.05" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c190324f-fd46-46be-8478-14b7d6dac76b/ROM-MainLogo_White-cut.png?format=1500w" alt="Reach One More">
-        <div class="vision-copy">
+        <div class="logo-cell">
+          <div class="halo" data-speed="-0.06" aria-hidden="true"></div>
+          <img class="rom-full parallax" data-speed="0.08" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/2528af29-7cf5-4cbc-9c94-d8cc1d7c84e6/ROM-MainLogo-S3_Yellow.png?format=1000w" alt="Reach One More">
+          <img class="rom-white parallax" data-speed="0.05" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c190324f-fd46-46be-8478-14b7d6dac76b/ROM-MainLogo_White-cut.png?format=1000w" alt="">
+        </div>
+        <div class="vision-copy parallax" data-speed="-0.03">
           <p class="eyebrow" style="color:var(--rom-yellow)">Our Vision</p>
           <h2>There is always one more.</h2>
           <p>Reach One More is an evangelistic initiative built on a value CCC has held for a century. A friend. A neighbor. Someone in a hard-to-reach place who has never heard the name of Jesus.</p>
@@ -297,7 +306,7 @@
 
       <p class="statement reveal">Because lost and hurting people <em>matter to God.</em></p>
 
-      <div class="film" data-popup>
+      <div class="film parallax" data-speed="0.04" data-popup>
         <div class="player" data-vimeo="1035732323" data-title="The Reach One More Story" data-poster="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/040510f6-770b-4353-8a2e-947ae97466ba/iStock-1461569700.jpg?format=2500w"></div>
         <div class="film-label"><p class="eyebrow">Watch</p><strong>The Reach One More Story</strong></div>
         <img class="pink parallax" data-speed="-0.12" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/fe19d0f8-0ca8-4089-b65e-fc5969716dfb/pink-circle.png?format=750w" alt="" aria-hidden="true">
@@ -306,7 +315,7 @@
   </section>
 
   <div class="band" role="img" aria-label="North Omaha"><img data-speed="0.1" data-fill src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/c4017b95-7146-4204-b2da-980358b1d0ea/North+Omaha.jpg?format=2500w" alt=""></div>
-  <div class="divider"><img data-speed="-0.08" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
+  <div class="divider"><img data-speed="-0.03" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
 
   <section class="goals" id="goals">
     <div class="wrap">
@@ -315,7 +324,7 @@
         <p class="big"><span data-count="100">100</span>% Engagement</p>
         <p>Every person at CCC was invited to take a real step in three areas.</p>
       </div>
-      <div class="people" id="people" aria-hidden="true"></div>
+      <div class="people parallax" data-speed="0.03" id="people" aria-hidden="true"></div>
       <p class="people-cap">Everyone engaged. Everyone reaching <span>one more</span>.</p>
       <div class="cards">
         <div class="card reveal">
@@ -417,7 +426,7 @@
   <section class="letter" id="letter">
     <div class="wrap split">
       <div class="letter-photos">
-        <img class="preach" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/d1cd8428-c271-4c95-bc6b-feb175bb1db3/MARK-PREACHING.jpg?format=1500w" alt="Minister Mark Ashton preaching">
+        <img class="preach parallax" data-speed="0.04" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/d1cd8428-c271-4c95-bc6b-feb175bb1db3/MARK-PREACHING.jpg?format=1500w" alt="Minister Mark Ashton preaching">
         <img class="portrait" data-speed="-0.07" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/6e58790d-6492-46a4-8133-46a6b653e27b/markel.jpg?format=750w" alt="Minister Mark Ashton">
       </div>
       <div class="letter-body">
@@ -434,7 +443,7 @@
     </div>
   </section>
 
-  <div class="divider"><img data-speed="-0.08" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
+  <div class="divider"><img data-speed="-0.03" src="https://images.squarespace-cdn.com/content/v1/651da7533f7e0d5e26ff8584/422ba9c9-69c9-4e5c-87e2-03bc649099ac/yellow-circle.png?format=300w" alt="" aria-hidden="true"></div>
 
   <section class="faq" id="faq">
     <div class="wrap">
@@ -603,14 +612,15 @@
     const update = () => {
       const center = scrollY + innerHeight / 2;
       items.forEach(it => {
-        let y = (it.mid - center) * it.speed;
+        let y = (it.mid - center) * it.speed * boost;
         y = Math.max(-it.max, Math.min(it.max, y));
         it.el.style.setProperty('--py', y.toFixed(1) + 'px');
       });
       ticking = false;
     };
     const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
-    const refresh = () => { measure(); update(); };
+    let boost = 1;
+    const refresh = () => { boost = innerWidth > 860 ? 2.2 : 1; measure(); update(); };
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', refresh);
     addEventListener('load', refresh);
