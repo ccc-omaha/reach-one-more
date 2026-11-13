@@ -68,7 +68,41 @@
   .z-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,61,.05) 40%,rgba(0,0,61,.55))}
   .z-logo,.z-ring,.z-disc{position:absolute;left:50%;top:50%;will-change:transform,opacity;backface-visibility:hidden}
   .z-logo{width:var(--L);height:var(--L);transform:translate(-50%,-50%)}
-  .z-ring{opacity:0;overflow:visible}
+  .z-ring{opacity:0}
+  .z-ring svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .z-ring .rb{inset:-3.7%;width:107.4%;height:107.4%;opacity:0}
+  .z-ring .rs,.z-ring .rb{will-change:opacity}
+
+  /* Scroll-driven version: runs on the compositor, in step with the scroll itself */
+  @keyframes zLogo{
+    0%{transform:translate(-50%,-50%) scale(1);opacity:1}
+    9%{transform:translate(-50%,-50%) scale(calc(1 + (var(--smax) - 1) * .0158));opacity:.4}
+    12%{opacity:0}
+    18%{transform:translate(-50%,-50%) scale(calc(1 + (var(--smax) - 1) * .055));opacity:0}
+    100%{transform:translate(-50%,-50%) scale(calc(1 + (var(--smax) - 1) * .055));opacity:0}}
+  @keyframes zGrow{
+    0%{transform:translate(-50%,-50%) scale(calc(1 / var(--smax)))}
+    9%{transform:translate(-50%,-50%) scale(calc((1 + (var(--smax) - 1) * .0158) / var(--smax)))}
+    18%{transform:translate(-50%,-50%) scale(calc((1 + (var(--smax) - 1) * .055) / var(--smax)))}
+    27%{transform:translate(-50%,-50%) scale(calc((1 + (var(--smax) - 1) * .115) / var(--smax)))}
+    36%{transform:translate(-50%,-50%) scale(calc((1 + (var(--smax) - 1) * .192) / var(--smax)))}
+    45%{transform:translate(-50%,-50%) scale(calc((1 + (var(--smax) - 1) * .287) / var(--smax)))}
+    54%{transform:translate(-50%,-50%) scale(calc((1 + (var(--smax) - 1) * .399) / var(--smax)))}
+    63%{transform:translate(-50%,-50%) scale(calc((1 + (var(--smax) - 1) * .526) / var(--smax)))}
+    72%{transform:translate(-50%,-50%) scale(calc((1 + (var(--smax) - 1) * .669) / var(--smax)))}
+    81%{transform:translate(-50%,-50%) scale(calc((1 + (var(--smax) - 1) * .827) / var(--smax)))}
+    90%,100%{transform:translate(-50%,-50%) scale(1)}}
+  @keyframes zRingIn{0%{opacity:0}6%,100%{opacity:1}}
+  @keyframes zDisc{0%,10%{opacity:0}20%{opacity:.18}27.5%{opacity:.5}35%{opacity:.82}45%,100%{opacity:1}}
+  @keyframes zPhoto{from{transform:scale(1)}to{transform:scale(1.25)}}
+  @keyframes zCue{0%{opacity:1}6%,100%{opacity:0}}
+  .zoom.sd .z-logo,.zoom.sd .z-ring,.zoom.sd .z-disc,.zoom.sd .z-photo img,.zoom.sd .z-cue{animation-timing-function:linear;animation-fill-mode:both;animation-timeline:scroll(root block);animation-range:0px 30svh}
+  .zoom.sd .z-logo{animation-name:zLogo}
+  .zoom.sd .z-ring{animation-name:zGrow,zRingIn}
+  .zoom.sd .z-disc{animation-name:zGrow,zDisc}
+  .zoom.sd .z-photo img{animation-name:zPhoto}
+  .zoom.sd .z-cue{animation-name:zCue}
+  .zoom.sd .z-cue{transform:translateX(-50%)}
   .z-disc{border-radius:50%;background:var(--navy);opacity:0}
   .z-photo img{will-change:transform}
   .stage{--L:clamp(300px,40vw,560px)}
@@ -297,7 +331,10 @@
       <div class="z-photo"><img src="images/iStock-1372330333.webp" alt=""></div>
       <div class="z-disc"></div>
       <img class="z-logo" src="images/ROM-MainLogo-S3_Yellow.webp" alt="Reach One More">
-      <svg class="z-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48.71" fill="none" stroke="#F7CB33" stroke-width="2.58"/></svg>
+      <div class="z-ring" aria-hidden="true">
+        <svg class="rs" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48.71" fill="none" stroke="#F7CB33" stroke-width="2.58"/></svg>
+        <svg class="rb" viewBox="-4 -4 108 108"><defs><filter id="zb" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="0.9"/></filter></defs><circle cx="50" cy="50" r="48.71" fill="none" stroke="#F7CB33" stroke-width="3.4" filter="url(#zb)"/></svg>
+      </div>
       <a class="z-cue" href="#vision" aria-label="Scroll to the vision">Scroll</a>
     </div>
   </section>
@@ -690,54 +727,55 @@
   ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(ev => addEventListener(ev, () => { clearTimeout(idle); cancelGlide = true; }, { passive: true }));
 
   // Opening: scroll carries you through the circle.
-  // Only transform and opacity change per frame (GPU-composited). The ring and disc are drawn
-  // at their largest size and scaled down, so the line stays sharp without re-rasterizing.
+  // Where the browser supports scroll-driven animations (current Chrome, Safari 26+), the
+  // zoom is pure CSS and runs on the compositor in lockstep with the scroll. Elsewhere a
+  // JS fallback drives the same transforms. Either way only transform/opacity change.
+  // Motion blur is a crossfade to a pre-blurred ring, so it costs nothing to animate.
   (() => {
     const zoom = document.querySelector('.zoom'), stage = zoom.querySelector('.stage');
     if (reduce) { zoom.classList.add('static'); return; }
     const logo = stage.querySelector('.z-logo'), ring = stage.querySelector('.z-ring'),
           disc = stage.querySelector('.z-disc'), photo = stage.querySelector('.z-photo img'),
-          cue = stage.querySelector('.z-cue');
+          cue = stage.querySelector('.z-cue'), rs = ring.querySelector('.rs'), rb = ring.querySelector('.rb');
+    const css = CSS.supports('animation-timeline: scroll()');
+    if (css) zoom.classList.add('sd');
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
     const smooth = t => t * t * (3 - 2 * t);
-    let L, sMax, top, dist, big, desktop, ticking = false, lastS = null, mb = 0;
+    let L, sMax, top, dist, ticking = false, lastS = null, blur = 0;
     const measure = () => {
       L = logo.offsetWidth;
       sMax = (Math.hypot(innerWidth, innerHeight) / L) * 1.25;
-      big = Math.ceil(L * sMax);
+      const big = Math.ceil(L * sMax);
       top = zoom.offsetTop; dist = zoom.offsetHeight - innerHeight;
-      desktop = innerWidth > 860;
+      stage.style.setProperty('--smax', sMax.toFixed(4));
       ring.style.width = ring.style.height = big + 'px';
-      const d = Math.ceil(big * 0.975);
-      disc.style.width = disc.style.height = d + 'px';
-      disc.dataset.d = d;
+      disc.style.width = disc.style.height = Math.ceil(big * 0.975) + 'px';
     };
-    const draw = () => {
+    const sAt = p => 1 + (sMax - 1) * Math.pow(Math.min(1, p / 0.9), 1.8);
+    const frame = () => {
       ticking = false;
-      const p = clamp((scrollY - top) / dist, 0, 1);
-      const s = 1 + (sMax - 1) * Math.pow(Math.min(1, p / 0.9), 1.8);
-      const k = s / sMax;
-      ring.style.transform = `translate(-50%,-50%) scale(${k.toFixed(5)})`;
-      disc.style.transform = `translate(-50%,-50%) scale(${k.toFixed(5)})`;
-      logo.style.transform = `translate(-50%,-50%) scale(${s.toFixed(4)})`;
-      logo.style.opacity = (1 - smooth(clamp(p / 0.12, 0, 1))).toFixed(3);
-      ring.style.opacity = smooth(clamp(p / 0.06, 0, 1)).toFixed(3);
-      disc.style.opacity = smooth(clamp((p - 0.1) / 0.35, 0, 1)).toFixed(3);
-      photo.style.transform = `scale(${(1 + p * 0.25).toFixed(4)})`;
-      cue.style.opacity = (1 - clamp(p / 0.06, 0, 1)).toFixed(3);
-      // motion blur on desktop only; filters are too costly to animate on phones
-      if (desktop) {
-        if (lastS !== null) mb = Math.max(mb * 0.85, Math.min(14, Math.abs(s - lastS) * L * 0.12));
-        lastS = s;
-        ring.style.filter = mb > 0.3 ? `blur(${mb.toFixed(1)}px)` : '';
-        if (mb > 0.3) { mb *= 0.9; if (!ticking) { ticking = true; requestAnimationFrame(draw); } } else mb = 0;
+      const p = clamp((scrollY - top) / dist, 0, 1), s = sAt(p);
+      if (!css) {
+        const k = (s / sMax).toFixed(5);
+        ring.style.transform = disc.style.transform = `translate(-50%,-50%) scale(${k})`;
+        logo.style.transform = `translate(-50%,-50%) scale(${s.toFixed(4)})`;
+        logo.style.opacity = (1 - smooth(clamp(p / 0.12, 0, 1))).toFixed(3);
+        ring.style.opacity = smooth(clamp(p / 0.06, 0, 1)).toFixed(3);
+        disc.style.opacity = smooth(clamp((p - 0.1) / 0.35, 0, 1)).toFixed(3);
+        photo.style.transform = `scale(${(1 + p * 0.25).toFixed(4)})`;
+        cue.style.opacity = (1 - clamp(p / 0.06, 0, 1)).toFixed(3);
       }
+      // motion blur: faster growth = more of the blurred ring showing; eases back when scrolling stops
+      if (lastS !== null) blur = Math.max(blur * 0.88, Math.min(1, Math.abs(s - lastS) * 3.2));
+      lastS = s;
+      rb.style.opacity = blur.toFixed(3);
+      rs.style.opacity = (1 - blur * 0.85).toFixed(3);
+      if (blur > 0.01) { if (!ticking) { ticking = true; requestAnimationFrame(frame); } } else blur = 0;
     };
-    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', () => { measure(); draw(); });
-    addEventListener('load', () => { measure(); draw(); });
-    measure(); draw();
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+    addEventListener('resize', () => { measure(); frame(); });
+    addEventListener('load', () => { measure(); frame(); });
+    measure(); frame();
   })();
 
   // Parallax: elements with data-speed drift as they pass through the viewport
