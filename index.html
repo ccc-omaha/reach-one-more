@@ -74,7 +74,7 @@
   .z-logo{opacity:var(--lo,1);filter:blur(var(--mb,0px))}
   .z-ring,.z-photo img{filter:blur(var(--mb,0px))}
   .z-ring{opacity:var(--ro,0)}
-  .z-cue{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-weight:700;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--navy);opacity:var(--co,1);display:flex;flex-direction:column;align-items:center;gap:8px}
+  .z-cue{text-decoration:none;cursor:pointer;padding:8px 16px;z-index:3;position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-weight:700;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--navy);opacity:var(--co,1);display:flex;flex-direction:column;align-items:center;gap:8px}
   .z-cue::after{content:"";width:1px;height:34px;background:currentColor;animation:cue 1.8s ease-in-out infinite;transform-origin:top}
   @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(0);transform-origin:bottom}}
   .zoom.static{height:auto;margin-top:0}
@@ -299,7 +299,7 @@
       <div class="z-inside"></div>
       <img class="z-logo" src="images/ROM-MainLogo-S3_Yellow.webp" alt="Reach One More">
       <div class="z-ring" aria-hidden="true"></div>
-      <p class="z-cue">Scroll</p>
+      <a class="z-cue" href="#vision" aria-label="Scroll to the vision">Scroll</a>
     </div>
   </section>
 
@@ -647,6 +647,24 @@
 
   document.querySelector('.to-top').addEventListener('click', e => { e.preventDefault(); scrollTo({ top: 0, behavior: 'smooth' }); history.replaceState(null, '', location.pathname); });
 
+  // Guided scroll: the cue (or a short idle on load) glides through the circle to the vision
+  const glideTo = (y, dur = 1800) => {
+    const y0 = scrollY, t0 = performance.now(), ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const html = document.documentElement, prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    const step = now => {
+      const k = Math.min(1, (now - t0) / dur);
+      scrollTo(0, y0 + (y - y0) * ease(k));
+      if (k < 1 && !cancelGlide) requestAnimationFrame(step); else html.style.scrollBehavior = prev;
+    };
+    cancelGlide = false; requestAnimationFrame(step);
+  };
+  let cancelGlide = false;
+  const visionY = () => document.getElementById('vision').getBoundingClientRect().top + scrollY - 68;
+  document.querySelector('.z-cue').addEventListener('click', e => { e.preventDefault(); glideTo(visionY()); });
+  let idle = setTimeout(() => { if (scrollY < 10) glideTo(visionY(), 2400); }, 4500);
+  ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(ev => addEventListener(ev, () => { clearTimeout(idle); cancelGlide = true; }, { passive: true }));
+
   // Opening: scroll carries you through the circle
   (() => {
     const zoom = document.querySelector('.zoom'), stage = zoom.querySelector('.stage');
@@ -674,11 +692,11 @@
       st.setProperty('--co', (1 - clamp(p / 0.06, 0, 1)).toFixed(3));
       // motion blur: proportional to how fast the ring is growing, eases off when scrolling stops
       const r = (L / 2) * s;
-      if (lastR !== null) mb = Math.max(mb * 0.6, Math.min(12, Math.abs(r - lastR) * 0.06));
+      if (lastR !== null) mb = Math.max(mb * 0.85, Math.min(18, Math.abs(r - lastR) * 0.25));
       lastR = r;
       st.setProperty('--mb', mb.toFixed(2) + 'px');
       cancelAnimationFrame(decay);
-      const fade = () => { mb *= 0.8; if (mb < 0.05) mb = 0; st.setProperty('--mb', mb.toFixed(2) + 'px'); if (mb) decay = requestAnimationFrame(fade); };
+      const fade = () => { mb *= 0.9; if (mb < 0.05) mb = 0; st.setProperty('--mb', mb.toFixed(2) + 'px'); if (mb) decay = requestAnimationFrame(fade); };
       decay = requestAnimationFrame(fade);
     };
     addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }, { passive: true });
