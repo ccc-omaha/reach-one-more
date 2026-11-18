@@ -3,9 +3,9 @@
   "visionVideoPoster": "/images/iStock-1461569700.webp",
   "band1": "/images/North-Omaha.webp",
   "band1Focus": "35%",
+  "band1Label": "North Omaha",
   "band2": "/images/Indonesia---by-Tyler-Morgan---Unsplash---Expanded.webp",
   "band2Focus": "80%",
-  "storiesBackground": "/images/iStock-1407511351.webp",
-  "band1Label": "North Omaha",
-  "band2Label": "Indonesia"
+  "band2Label": "Green City",
+  "storiesBackground": "/images/iStock-1407511351.webp"
 }
