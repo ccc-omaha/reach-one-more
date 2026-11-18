@@ -24,11 +24,11 @@ content:
       - name: intro
         label: Intro paragraph
         type: text
-        description: The large centered paragraph right after the circle opening.
+        description: "The large centered paragraph right after the circle opening. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
       - name: archiveNote
         label: Yellow pill note
         type: text
-        description: The note in the yellow pill under the intro. Wrap words in **double asterisks** to bold them.
+        description: "The note in the yellow pill under the intro. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
       - name: heading
         label: Vision heading
         type: string
@@ -36,7 +36,7 @@ content:
       - name: text
         label: Vision paragraph
         type: text
-        description: The paragraph under the vision heading.
+        description: "The paragraph under the vision heading. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
       - name: verse
         label: Scripture verse
         type: text
@@ -71,7 +71,7 @@ content:
     fields:
       - name: intro
         label: Line under "100% Engagement"
-        description: The line under the big 100% Engagement number.
+        description: "The line under the big 100% Engagement number. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
         type: text
       - name: caption
         label: Caption under the people icons
@@ -89,7 +89,7 @@ content:
             type: string
           - name: text
             label: Card text
-            description: The paragraph on the card.
+            description: "The paragraph on the card. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
             type: text
 
   # ---------------------------------------------------------------
@@ -102,7 +102,7 @@ content:
       - name: intro
         label: Line under the total
         type: text
-        description: The total ($12.2 Million) and both bar charts are calculated from the amounts below.
+        description: "The total ($12.2 Million) and both bar charts are calculated from the amounts below. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
       - name: coreAmount
         label: Core ministry amount
         type: number
@@ -146,7 +146,7 @@ content:
         type: string
       - name: intro
         label: Line under the heading
-        description: The line under the stories heading.
+        description: "The line under the stories heading. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
         type: text
       - name: videos
         label: Story videos
@@ -184,7 +184,7 @@ content:
         label: Letter paragraphs
         type: text
         list: true
-        description: One paragraph per item.
+        description: "One paragraph per item. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
       - name: signoff
         label: Name under the signature
         description: The name under the signature image.
